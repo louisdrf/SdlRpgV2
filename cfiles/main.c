@@ -19,13 +19,18 @@ Game game;
 Game *pgame = &game;
 
 Perso perso;
-    perso.rect.x = 360;
-    perso.rect.y = 360;
+    perso.rect.x = 50;
+    perso.rect.y = 50;
     perso.rect.w = 64;
     perso.rect.h = 64;
 
+    perso.xmap = 0;
+    perso.ymap = 0;
+
 Perso *pperso = &perso; 
 init_perso_sprites(pperso);
+init_perso_animations(pperso);
+
 
 
 // init sdl

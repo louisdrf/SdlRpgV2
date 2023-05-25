@@ -10,10 +10,23 @@
 void launch_loop(Game *g, Perso *p) {
 
     SDL_bool program_launched = SDL_TRUE;
-    SDL_Rect backgroundRect = {0, 0, SCREEN_H, SCREEN_W};
-    SDL_Rect *pbackgroundRect = &backgroundRect;
-    char *imgmap00 = "../img/maps/map00.png";
-    char *currentmap = "00";
+
+    Map currentMap; 
+
+    currentMap.x = 0;
+    currentMap.y = 0;
+    currentMap.currentMapPath = "../img/maps/map00.png";
+    SDL_Rect mapRect = {0, 0, SCREEN_H, SCREEN_W};
+    SDL_Rect *pmapRect = &mapRect;
+
+    p->currentSprite = "../img/perso/tileRight1.png";
+    p->animation_index = 0;
+
+    
+    
+    print_image(g, currentMap.currentMapPath, pmapRect);
+    print_image(g, p->currentSprite, &(p->rect));
+    SDL_RenderPresent(g->renderer);
 
 
 
@@ -35,36 +48,36 @@ void launch_loop(Game *g, Perso *p) {
 
                                 case SDLK_LEFT: 
 
-                                    move("left", PERSO_SPEED, &(p->rect), g, p->sprites[0], currentmap, pbackgroundRect);
-
+                                    move("left", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
                                     SDL_RenderPresent(g->renderer);
+
                                 break;
 
                                 ///////////////////////////////////////////////
 
                                 case SDLK_RIGHT: 
-
-                                    move("right", PERSO_SPEED, &(p->rect), g, p->sprites[1], currentmap, pbackgroundRect);
-
+                                
+                                    move("right", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
                                     SDL_RenderPresent(g->renderer);
+
                                 break; 
 
                                 ///////////////////////////////////////////////
 
                                 case SDLK_UP: 
 
-                                    move("up", PERSO_SPEED, &(p->rect), g, p->sprites[2], currentmap, pbackgroundRect);
+                                    move("up", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
+                                    SDL_RenderPresent(g->renderer);   
 
-                                    SDL_RenderPresent(g->renderer);                           
                                 break;
 
                                 ///////////////////////////////////////////////
 
                                 case SDLK_DOWN:
 
-                                    move("down", PERSO_SPEED, &(p->rect), g, p->sprites[3], currentmap, pbackgroundRect);
-
+                                    move("down", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
                                     SDL_RenderPresent(g->renderer);
+
                                 break;
 
                                 ///////////////////////////////////////////////
@@ -75,9 +88,8 @@ void launch_loop(Game *g, Perso *p) {
                     } // fin switch event.key
                 default:
                 break;
-            } // fin swtich event.type  
+            } // fin switch event.type  
         } // fin while SDL_PollEvent 
-
     } //fin de program_launched
 
 }

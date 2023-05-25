@@ -35,6 +35,9 @@ void print_map(char *index, Game *g, SDL_Rect *r) {
     if(strstr(index, "10")) {
         mappath = "../img/maps/map10.png";
     }
+    if(strstr(index, "01")) {
+        mappath = "../img/maps/map01.png";
+    }
 
     print_image(g, mappath, r);
 }
