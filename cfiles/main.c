@@ -18,13 +18,14 @@ Game game;
 Game *pgame = &game;
 
 Perso perso;
-    perso.rect.x = 0;
-    perso.rect.y = 0;
+    perso.rect.x = 360;
+    perso.rect.y = 360;
     perso.rect.w = 36;
     perso.rect.h = 36;
-
-    perso.xmap = 0;
-    perso.ymap = 0;
+    perso.positionX = (perso.rect.x + perso.rect.w/2); // position x 
+    perso.positionY = (perso.rect.y + perso.rect.h/2); // position y
+    perso.xmap = 0; // coordonnees map x
+    perso.ymap = 0; // coordonnees map y
     perso.speed = PERSO_SPEED;
 
 Perso *pperso = &perso; 
@@ -36,7 +37,7 @@ Map map;
 
     map.x = 0;
     map.y = 0;
-    map.currentMapPath = "../img/maps/map00.png";
+    map.currentMapPath = "../img/maps/map10.png";
     map.rect.h = SCREEN_H;
     map.rect.w = SCREEN_W;
     map.rect.x = 0;

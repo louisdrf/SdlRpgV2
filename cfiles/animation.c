@@ -20,7 +20,6 @@ SDL_Texture *animation_perso(Perso *p, char *direction) {
             return p->animations_textures[0][2];
             break;
             case 3:
-            p->animation_index = 0;
             return p->animations_textures[0][3];
             break;
 
@@ -43,7 +42,6 @@ SDL_Texture *animation_perso(Perso *p, char *direction) {
             return p->animations_textures[1][2];
             break;
             case 3:
-            p->animation_index = 0;
             return p->animations_textures[1][3];
             break;
             default:
@@ -65,7 +63,6 @@ SDL_Texture *animation_perso(Perso *p, char *direction) {
             return p->animations_textures[2][2];
             break;
             case 3:
-            p->animation_index = 0;
             return p->animations_textures[2][3];
             break;
             default:
@@ -87,7 +84,6 @@ SDL_Texture *animation_perso(Perso *p, char *direction) {
             return p->animations_textures[3][2];
             break;
             case 3:
-            p->animation_index = 0;
             return p->animations_textures[3][3];
             break;
 
