@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <string.h>
 #include "../headers/init_sprites.h"
 #include "../headers/structs.h"
@@ -34,5 +35,32 @@ void init_perso_animations(Perso *p) {
     p->animations[3][1] = "../img/perso/tileFront2.png";
     p->animations[3][2] = "../img/perso/tileFront3.png";
     p->animations[3][3] = "../img/perso/tileFront4.png";
+}
+
+
+void load_perso_animations(Perso *p, Game *g) {
+
+    int i, j = 0;
+
+    for(i = 0; i < NB_PERSO_ANIMATIONS; i++) {
+
+            for(j = 0; j < NB_PERSO_ANIMATIONS; j++) {
+
+                        SDL_Surface *currentSurface = IMG_Load(p->animations[i][j]); // on charge les images du perso avant de les utiliser
+                        //printf("%s\n", p->animations[i][j]);
+                        if (currentSurface == NULL) {
+                        printf("Erreur lors du chargement de l'image %s : %s\n", p->animations[i][j], IMG_GetError());
+                        exit(1);
+                        }
+
+                        p->animations_textures[i][j] = SDL_CreateTextureFromSurface(g->renderer, currentSurface);
+                        SDL_FreeSurface(currentSurface); 
+                        if (p->animations_textures[i][j] == NULL) {
+                            printf("Erreur lors de la création de la texture perso[%d][%d] : %s\n", i, j, SDL_GetError());
+                            exit(1);
+                        }
+            }
+      }
+    
 }
 

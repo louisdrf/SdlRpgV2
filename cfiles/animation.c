@@ -4,27 +4,27 @@
 #include "../headers/animation.h"
 
 
-char *animation_perso(Perso *p, char *direction) {
+SDL_Texture *animation_perso(Perso *p, char *direction) {
 
     if(strstr(direction, "left")) {
 
         switch(p->animation_index) {
 
             case 0:
-            return p->animations[0][0];
+            return p->animations_textures[0][0];
             break;
 
             case 1:
-            return p->animations[0][1];
+            return p->animations_textures[0][1];
             break;
 
             case 2:
-            return p->animations[0][2];
+            return p->animations_textures[0][2];
             break;
 
             case 3:
             p->animation_index = 0;
-            return p->animations[0][3];
+            return p->animations_textures[0][3];
             break;
 
             default:
@@ -37,20 +37,20 @@ char *animation_perso(Perso *p, char *direction) {
         switch(p->animation_index) {
 
             case 0:
-            return p->animations[1][0];
+            return p->animations_textures[1][0];
             break;
 
             case 1:
-            return p->animations[1][1];
+            return p->animations_textures[1][1];
             break;
 
             case 2:
-            return p->animations[1][2];
+            return p->animations_textures[1][2];
             break;
 
             case 3:
             p->animation_index = 0;
-            return p->animations[1][3];
+            return p->animations_textures[1][3];
             break;
 
             default:
@@ -63,20 +63,20 @@ char *animation_perso(Perso *p, char *direction) {
         switch(p->animation_index) {
 
             case 0:
-            return p->animations[2][0];
+            return p->animations_textures[2][0];
             break;
 
             case 1:
-            return p->animations[2][1];
+            return p->animations_textures[2][1];
             break;
 
             case 2:
-            return p->animations[2][2];
+            return p->animations_textures[2][2];
             break;
 
             case 3:
             p->animation_index = 0;
-            return p->animations[2][3];
+            return p->animations_textures[2][3];
             break;
 
             default:
@@ -89,20 +89,20 @@ char *animation_perso(Perso *p, char *direction) {
         switch(p->animation_index) {
 
             case 0:
-            return p->animations[3][0];
+            return p->animations_textures[3][0];
             break;
 
             case 1:
-            return p->animations[3][1];
+            return p->animations_textures[3][1];
             break;
 
             case 2:
-            return p->animations[3][2];
+            return p->animations_textures[3][2];
             break;
 
             case 3:
             p->animation_index = 0;
-            return p->animations[3][3];
+            return p->animations_textures[3][3];
             break;
 
             default:

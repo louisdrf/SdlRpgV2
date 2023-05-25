@@ -10,6 +10,7 @@
 void launch_loop(Game *g, Perso *p) {
 
     SDL_bool program_launched = SDL_TRUE;
+    int lastAnimTime = 0;
 
     Map currentMap; 
 
@@ -48,8 +49,12 @@ void launch_loop(Game *g, Perso *p) {
 
                                 case SDLK_LEFT: 
 
-                                    move("left", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
-                                    SDL_RenderPresent(g->renderer);
+                                        if (SDL_GetTicks() - lastAnimTime >= DELAY_BETWEEN_ANIMATIONS) {
+
+                                                    move("left", &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
+                                                    SDL_RenderPresent(g->renderer);
+                                                    lastAnimTime = SDL_GetTicks();
+                                        }
 
                                 break;
 
@@ -57,8 +62,12 @@ void launch_loop(Game *g, Perso *p) {
 
                                 case SDLK_RIGHT: 
                                 
-                                    move("right", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
-                                    SDL_RenderPresent(g->renderer);
+                                        if (SDL_GetTicks() - lastAnimTime >= DELAY_BETWEEN_ANIMATIONS) {
+
+                                                    move("right", &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
+                                                    SDL_RenderPresent(g->renderer);
+                                                    lastAnimTime = SDL_GetTicks();
+                                        }
 
                                 break; 
 
@@ -66,8 +75,12 @@ void launch_loop(Game *g, Perso *p) {
 
                                 case SDLK_UP: 
 
-                                    move("up", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
-                                    SDL_RenderPresent(g->renderer);   
+                                        if (SDL_GetTicks() - lastAnimTime >= DELAY_BETWEEN_ANIMATIONS) {
+
+                                                    move("up", &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
+                                                    SDL_RenderPresent(g->renderer);
+                                                    lastAnimTime = SDL_GetTicks();
+                                        }   
 
                                 break;
 
@@ -75,14 +88,17 @@ void launch_loop(Game *g, Perso *p) {
 
                                 case SDLK_DOWN:
 
-                                    move("down", PERSO_SPEED, &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
-                                    SDL_RenderPresent(g->renderer);
+                                        if (SDL_GetTicks() - lastAnimTime >= DELAY_BETWEEN_ANIMATIONS) {
+
+                                                    move("down", &(p->rect), g, currentMap.currentMapPath, pmapRect, p);
+                                                    SDL_RenderPresent(g->renderer);
+                                                    lastAnimTime = SDL_GetTicks();
+                                        }
 
                                 break;
 
                                 ///////////////////////////////////////////////
                                 
-                            
                                 default:
                                 break;
                     } // fin switch event.key

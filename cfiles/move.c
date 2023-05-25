@@ -6,43 +6,43 @@
 #include "../headers/animation.h"
 
 
-void move(char *direction, int speed, SDL_Rect *rperso, Game *g, char *currentmap, SDL_Rect *rmap, Perso *p) {
+void move(char *direction, SDL_Rect *rperso, Game *g, char *currentmap, SDL_Rect *rmap, Perso *p) {
 
     p->animation_index+=1;
-    
+
 
     if(strstr(direction, "left")) {
 
         SDL_RenderClear(g->renderer);
-        rperso->x -= speed;
+        rperso->x -= p->speed;
         print_map(currentmap, g, rmap);
-        print_image(g, animation_perso(p, direction), rperso);
+        SDL_RenderCopy(g->renderer, animation_perso(p, direction), NULL, rperso); /// animation_perso() retourne la texture correspondante
     }
 
             if(strstr(direction, "right")) {
                         
                 SDL_RenderClear(g->renderer);
-
-                rperso->x += speed;
+                rperso->x += p->speed;
                 print_map(currentmap, g, rmap);
-                print_image(g, animation_perso(p, direction), rperso);
+                SDL_RenderCopy(g->renderer, animation_perso(p, direction), NULL, rperso); 
             }
 
 
     if(strstr(direction, "up")) {
                 
         SDL_RenderClear(g->renderer);
-        rperso->y -= speed;
+        rperso->y -= p->speed;
         print_map(currentmap, g, rmap);
-        print_image(g, animation_perso(p, direction), rperso);
+        SDL_RenderCopy(g->renderer, animation_perso(p, direction), NULL, rperso); 
+
     }
 
 
             if(strstr(direction, "down")) {
 
                 SDL_RenderClear(g->renderer);
-                rperso->y += speed;
+                rperso->y += p->speed;
                 print_map(currentmap, g, rmap);
-                print_image(g, animation_perso(p, direction), rperso);
+                SDL_RenderCopy(g->renderer, animation_perso(p, direction), NULL, rperso); 
             }
 }
