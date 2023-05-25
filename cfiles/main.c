@@ -18,10 +18,10 @@ Game game;
 Game *pgame = &game;
 
 Perso perso;
-    perso.rect.x = 50;
-    perso.rect.y = 50;
-    perso.rect.w = 64;
-    perso.rect.h = 64;
+    perso.rect.x = 0;
+    perso.rect.y = 0;
+    perso.rect.w = 36;
+    perso.rect.h = 36;
 
     perso.xmap = 0;
     perso.ymap = 0;
@@ -32,12 +32,25 @@ init_perso_sprites(pperso);
 init_perso_animations(pperso); 
 
 
+Map map;
+
+    map.x = 0;
+    map.y = 0;
+    map.currentMapPath = "../img/maps/map00.png";
+    map.rect.h = SCREEN_H;
+    map.rect.w = SCREEN_W;
+    map.rect.x = 0;
+    map.rect.y = 0;
+
+Map *pmap = &map;
+
+
 
 // init sdl
 sdl_init(pgame);
 load_perso_animations(pperso, pgame); // load textures for character
 // init the main loop of the game
-launch_loop(pgame, pperso);
+launch_loop(pgame, pperso, pmap);
 // close the game
 sdl_close(pgame);
 
