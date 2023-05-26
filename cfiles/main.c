@@ -18,8 +18,8 @@ Game game;
 Game *pgame = &game;
 
 Perso perso;
-    perso.rect.x = 360;
-    perso.rect.y = 360;
+    perso.rect.x = 324;
+    perso.rect.y = 324;
     perso.rect.w = 36;
     perso.rect.h = 36;
     perso.positionX = (perso.rect.x + perso.rect.w/2); // position x 
@@ -37,11 +37,12 @@ Map map;
 
     map.x = 0;
     map.y = 0;
-    map.currentMapPath = "../img/maps/map10.png";
+    map.currentMapPath = "../img/mapsZelda/map00.png";
     map.rect.h = SCREEN_H;
     map.rect.w = SCREEN_W;
     map.rect.x = 0;
     map.rect.y = 0;
+
 
 Map *pmap = &map;
 

@@ -26,19 +26,7 @@ void print_image(Game *g, char *imgpath, SDL_Rect *r) {
 
 
 
-void print_map(char *index, Game *g, SDL_Rect *r) {
+void print_map(Game *g, Map *m) {
 
-    char *mappath;
-
-    if(strstr(index, "00")) {
-        mappath = "../img/maps/map00.png";
-    }
-    if(strstr(index, "10")) {
-        mappath = "../img/maps/map10.png";
-    }
-    if(strstr(index, "01")) {
-        mappath = "../img/maps/map01.png";
-    }
-
-    print_image(g, mappath, r);
+    print_image(g, m->currentMapPath, &(m->rect));
 }

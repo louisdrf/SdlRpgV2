@@ -35,8 +35,8 @@ typedef struct Map {
     char *currentMapPath; 
     int x;
     int y;
-    SDL_Rect parts[2][2];
-
+    SDL_Rect parts[NBTILES][NBTILES];
+    int quadmap[20][20];
 
 } Map; 
 

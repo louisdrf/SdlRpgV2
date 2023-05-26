@@ -23,10 +23,12 @@ void launch_loop(Game *g, Perso *p, Map *m) {
     p->currentSprite = "../img/link/linkRight1.png";
     p->animation_index = 0;
 
-    init_map(m); // découpe la carte en 4 rectangles
-
     print_image(g, m->currentMapPath, &(m->rect));
     print_image(g, p->currentSprite, &(p->rect));
+
+    init_map(m, g); // découpe la carte en rectangles
+    init_collisions(m, g); // initialise les collisions de la map
+
     SDL_RenderPresent(g->renderer);
 
 
@@ -53,12 +55,10 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                                         if(!strstr(lastmove, "left")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                    
-                                                    move("left", &(p->rect), g, m->currentMapPath, &(m->rect), p);
+                                                    move("left", g, p, m);
 
                                                     lastAnimTime = SDL_GetTicks();
                                                     lastmove = "left";
-                                                    get_position_perso(p, m);
                                                     if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                         }
 
@@ -71,11 +71,10 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                                         if(!strstr(lastmove, "right")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                    move("right", &(p->rect), g, m->currentMapPath, &(m->rect), p);
+                                                    move("right", g, p, m);
                                                     
                                                     lastAnimTime = SDL_GetTicks();
                                                     lastmove = "right";
-                                                    get_position_perso(p, m);
                                                     if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                         }
 
@@ -88,11 +87,10 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                                         if(!strstr(lastmove, "up")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                    move("up", &(p->rect), g, m->currentMapPath, &(m->rect), p);
+                                                    move("up", g, p, m);
 
                                                     lastAnimTime = SDL_GetTicks();
                                                     lastmove = "up";
-                                                    get_position_perso(p, m);
                                                     if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                         }   
 
@@ -106,11 +104,10 @@ void launch_loop(Game *g, Perso *p, Map *m) {
 
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                    move("down", &(p->rect), g, m->currentMapPath, &(m->rect), p);
+                                                    move("down", g, p, m);
 
                                                     lastAnimTime = SDL_GetTicks();
                                                     lastmove = "down";
-                                                    get_position_perso(p, m);
                                                     if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                         }
 
