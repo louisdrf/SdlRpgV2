@@ -18,12 +18,12 @@ Game game;
 Game *pgame = &game;
 
 Perso perso;
-    perso.rect.x = 324;
-    perso.rect.y = 324;
+    perso.positionX = 5;
+    perso.positionY = 5;
+    perso.rect.x = perso.positionX * TILESIZE;
+    perso.rect.y = perso.positionY * TILESIZE;
     perso.rect.w = 36;
     perso.rect.h = 36;
-    perso.positionX = (perso.rect.x + perso.rect.w/2); // position x 
-    perso.positionY = (perso.rect.y + perso.rect.h/2); // position y
     perso.xmap = 0; // coordonnees map x
     perso.ymap = 0; // coordonnees map y
     perso.speed = PERSO_SPEED;
