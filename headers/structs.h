@@ -36,7 +36,7 @@ typedef struct Map {
     int x;
     int y;
     SDL_Rect parts[NBTILES][NBTILES];
-    int quadmap[20][20];
+    int quadmap[60][60];
 
 } Map; 
 

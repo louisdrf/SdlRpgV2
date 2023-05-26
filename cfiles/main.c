@@ -18,8 +18,8 @@ Game game;
 Game *pgame = &game;
 
 Perso perso;
-    perso.positionX = 5;
-    perso.positionY = 5;
+    perso.positionX = 20;
+    perso.positionY = 20;
     perso.rect.x = perso.positionX * TILESIZE;
     perso.rect.y = perso.positionY * TILESIZE;
     perso.rect.w = 36;

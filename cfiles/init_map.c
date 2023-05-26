@@ -3,29 +3,6 @@
 #include "../headers/defines.h"
 
 
-void init_map(Map *map, Game *g) {
-
-
-    int partWidth = SCREEN_W / NBTILES;
-    int partHeight = SCREEN_H / NBTILES;
-
-    for (int i = 0; i < NBTILES; i++) {
-        for (int j = 0; j < NBTILES; j++) {
-            int partX = i * partWidth;
-            int partY = j * partHeight;
-
-            map->parts[i][j].x = partX;
-            map->parts[i][j].y = partY;
-            map->parts[i][j].w = partWidth;
-            map->parts[i][j].h = partHeight;
-
-            SDL_SetRenderDrawColor(g->renderer, 255, 0, 0, 255); // Couleur rouge
-            SDL_RenderDrawRect(g->renderer, &(map->parts[i][j]));
-        }
-    }
-    
-}
-
 void init_collisions(Map *map, Game *g) {
 
     int quadmapValues[20][20] = {
@@ -50,6 +27,21 @@ void init_collisions(Map *map, Game *g) {
             {126, 127, 200, 201, 126, 127, 200, 201, 126, 127, 126, 127, 268, 268, 164, 165, 164, 165, 238, 239},
             {164, 165, 238, 239, 164, 165, 238, 239, 164, 165, 164, 165, 268, 268, 230, 230, 230, 230, 230, 230}
             };
-        memcpy(map->quadmap, quadmapValues, sizeof(quadmapValues));
+
+        int quadmapDivided[NBTILES][NBTILES];
+
+            for (int i = 0; i < 20; i++) {
+                for (int j = 0; j < 20; j++) {
+                    int value = quadmapValues[i][j];
+                    
+                    for (int x = 0; x < 3; x++) {
+                        for (int y = 0; y < 3; y++) {
+                            quadmapDivided[i * 3 + y][j * 3 + x] = value;
+                        }
+                    }
+                }
+            }
+
+        memcpy(map->quadmap, quadmapDivided, sizeof(quadmapDivided));
 
 }

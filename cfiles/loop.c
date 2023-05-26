@@ -26,7 +26,6 @@ void launch_loop(Game *g, Perso *p, Map *m) {
     print_image(g, m->currentMapPath, &(m->rect));
     print_image(g, p->currentSprite, &(p->rect));
 
-    init_map(m, g); // découpe la carte en rectangles
     init_collisions(m, g); // initialise les collisions de la map
 
     SDL_RenderPresent(g->renderer);
