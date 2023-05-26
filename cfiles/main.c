@@ -1,6 +1,7 @@
 // gcc -c *.c  $(sdl2-config --cflags --libs) -lSDL2_image
 // gcc -o main *.o $(sdl2-config --cflags --libs) -lSDL2_image
 //https://convert-my-image.com/ImageConverter_Fr
+//https://www.spriters-resource.com/fullview/109034/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,9 +28,10 @@ Perso perso;
     perso.xmap = 0; // coordonnees map x
     perso.ymap = 0; // coordonnees map y
     perso.speed = PERSO_SPEED;
+    perso.currentSprite = "../img/link/linkRight1.png";
+    perso.animation_index = 0;
 
 Perso *pperso = &perso; 
-init_perso_sprites(pperso);
 init_perso_animations(pperso); 
 
 
@@ -37,7 +39,7 @@ Map map;
 
     map.x = 0;
     map.y = 0;
-    map.currentMapPath = "../img/mapsZelda/map00.png";
+    map.currentMapPath = "../img/mapsZelda/map01.png";
     map.rect.h = SCREEN_H;
     map.rect.w = SCREEN_W;
     map.rect.x = 0;

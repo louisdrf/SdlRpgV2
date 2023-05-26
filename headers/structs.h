@@ -6,6 +6,8 @@
 typedef struct Game {
     SDL_Window *window;
     SDL_Renderer *renderer;  
+    SDL_Texture *buffer_draw;
+    SDL_Texture *buffer_print;
 
 } Game; 
 
@@ -16,7 +18,6 @@ typedef struct Perso {
     char *name; 
     int lifepoints;
     int speed; 
-    char *sprites[NB_PERSO_ANIMATIONS];
     char *animations[4][4];
     SDL_Texture *animations_textures[4][4];
     int animation_index;
@@ -35,8 +36,7 @@ typedef struct Map {
     char *currentMapPath; 
     int x;
     int y;
-    SDL_Rect parts[NBTILES][NBTILES];
-    int quadmap[60][60];
+    Uint16 quadmap[NBTILES][NBTILES];
 
 } Map; 
 

@@ -11,7 +11,7 @@ void sdl_init(Game *g) {
             exit(1);
         }
 
-    g->window = SDL_CreateWindow("Zelda", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_H, SDL_WINDOW_SHOWN);
+    g->window = SDL_CreateWindow("Zelda", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_W, SDL_WINDOW_SHOWN);
     if(g->window == NULL) {
         printf("erreur de creation de la fenetre : %s\n", SDL_GetError());
         exit(1);
@@ -22,6 +22,9 @@ void sdl_init(Game *g) {
         printf("erreur de creation du rendu : %s\n", SDL_GetError());
         exit(1);
     }   
+
+    g->buffer_draw = SDL_CreateTexture(g->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_W);
+    g->buffer_print = SDL_CreateTexture(g->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_W);
 
 }
 

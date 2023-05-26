@@ -15,22 +15,16 @@ void launch_loop(Game *g, Perso *p, Map *m) {
     SDL_bool keyRight = SDL_FALSE;
     SDL_bool keyDown = SDL_FALSE;
     SDL_bool keyUp = SDL_FALSE;
-    int lastAnimTime = 0;
-    int delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
+    Uint16 lastAnimTime = 0;
+    Uint8 delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
     char *lastmove;
 
 
-    p->currentSprite = "../img/link/linkRight1.png";
-    p->animation_index = 0;
-
-    print_image(g, m->currentMapPath, &(m->rect));
-    print_image(g, p->currentSprite, &(p->rect));
 
     init_collisions(m, g); // initialise les collisions de la map
-
+    print_map(g, m); // affichage map
+    print_image(g, p->currentSprite, &(p->rect));  // affichage perso
     SDL_RenderPresent(g->renderer);
-
-
 
     while(program_launched) {
 
@@ -120,7 +114,7 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                 default:
                 break;
             } // fin switch event.type  
-        } // fin while SDL_PollEvent 
+        } // fin while SDL_PollEvent    
     } //fin de program_launched
 
 }

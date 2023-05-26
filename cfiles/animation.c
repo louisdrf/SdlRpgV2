@@ -28,7 +28,7 @@ SDL_Texture *animation_perso(Perso *p, char *direction) {
         }
 
     }
-    if(strstr(direction, "right")) {
+    else if(strstr(direction, "right")) {
 
         switch(p->animation_index) {
 
@@ -49,7 +49,7 @@ SDL_Texture *animation_perso(Perso *p, char *direction) {
         }
         
     }
-    if(strstr(direction, "up")) {
+    else if(strstr(direction, "up")) {
 
         switch(p->animation_index) {
 
@@ -70,7 +70,7 @@ SDL_Texture *animation_perso(Perso *p, char *direction) {
         }
         
     }
-    if(strstr(direction, "down")) {
+    else if(strstr(direction, "down")) {
 
         switch(p->animation_index) {
 
