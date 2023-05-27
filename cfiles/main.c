@@ -19,8 +19,8 @@ Game game;
 Game *pgame = &game;
 
 Perso perso;
-    perso.positionX = 20;
-    perso.positionY = 20;
+    perso.positionX = 10;
+    perso.positionY = 10;
     perso.rect.x = perso.positionX * TILESIZE;
     perso.rect.y = perso.positionY * TILESIZE;
     perso.rect.w = 36;
@@ -30,10 +30,11 @@ Perso perso;
     perso.speed = PERSO_SPEED;
     perso.currentSprite = "../img/link/linkRight1.png";
     perso.animation_index = 0;
-
 Perso *pperso = &perso; 
-init_perso_animations(pperso); 
 
+
+init_perso_animations(pperso); 
+init_perso_animations_attack(pperso);
 
 Map map;
 

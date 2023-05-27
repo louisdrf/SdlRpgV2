@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "string.h": "c",
-        "perso.h": "c"
+        "perso.h": "c",
+        "create_texture.h": "c"
     }
 }

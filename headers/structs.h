@@ -18,8 +18,8 @@ typedef struct Perso {
     char *name; 
     int lifepoints;
     int speed; 
-    char *animations[4][4];
-    SDL_Texture *animations_textures[4][4];
+    char *animations[NB_PERSO_ANIMATIONS][4];
+    SDL_Texture *animations_textures[NB_PERSO_ANIMATIONS][4];
     int animation_index;
     char *currentSprite; 
     int xmap;

@@ -2,6 +2,9 @@
 #include "../headers/perso.h"
 #include "../headers/structs.h"
 #include "../headers/move.h"
+#include "../headers/create_texture.h"
+#include "../headers/animation_sword.h"
+
 
 void get_position_perso(Perso *p, Map *m, Game *g, char *direction) {
 
@@ -49,4 +52,19 @@ void get_collision(Perso *p, Map *m, Game *g, char *direction) {
         }
 
     }
+}
+
+
+void attack(Game *g, Perso *p, Map *m, char *lastmove) {
+
+    for(int i = 0; i<4; i++) {
+
+              SDL_RenderClear(g->renderer);
+              print_map(g, m);
+              SDL_RenderCopy(g->renderer, animation_sword(p, lastmove), NULL, &(p->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
+              SDL_RenderPresent(g->renderer);
+              p->animation_index += 1;
+              SDL_Delay(50);
+    }
+    p->animation_index = 0;
 }

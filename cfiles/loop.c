@@ -8,17 +8,15 @@
 #include "../headers/init_map.h"
 #include "../headers/perso.h"
 
+
+
+
 void launch_loop(Game *g, Perso *p, Map *m) {
 
     SDL_bool program_launched = SDL_TRUE;
-    SDL_bool keyLeft = SDL_FALSE; 
-    SDL_bool keyRight = SDL_FALSE;
-    SDL_bool keyDown = SDL_FALSE;
-    SDL_bool keyUp = SDL_FALSE;
     Uint16 lastAnimTime = 0;
     Uint8 delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
     char *lastmove;
-
 
 
     init_collisions(m, g); // initialise les collisions de la map
@@ -37,7 +35,6 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                 case SDL_QUIT: 
                     program_launched = SDL_FALSE; 
                     break;
-
 
                 case SDL_KEYDOWN: 
                 
@@ -104,6 +101,20 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                                                     if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                         }
 
+                                break;
+
+
+                                case SDLK_s: 
+
+                                        if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
+
+                                                            p->animation_index = 0;
+                                                            attack(g, p, m, lastmove);
+
+                                                            lastAnimTime = SDL_GetTicks();
+                                                            lastmove = "sword";
+                                                            if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
+                                                }
                                 break;
 
                                 ///////////////////////////////////////////////
