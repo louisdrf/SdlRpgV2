@@ -48,7 +48,7 @@ void get_collision(Perso *p, Map *m, Game *g, char *direction) {
         // on regarde le point au milieu bas du personnage par rapport au mur 
         if(m->quadmap[(p->positionY + (p->rect.h/TILESIZE))][p->positionX + (p->rect.w/TILESIZE)/2] == 0) {
 
-          fluid_move(p, m, g, p->positionX, (p->positionY + 1), "down");
+          fluid_move(p, m, g, p->positionX, (p->positionY + 1), "down"); // move.c
         }
 
     }
@@ -57,11 +57,12 @@ void get_collision(Perso *p, Map *m, Game *g, char *direction) {
 
 void attack(Game *g, Perso *p, Map *m, char *lastmove) {
 
+  p->animation_index = 0;
+
     for(int i = 0; i<4; i++) {
 
-              SDL_RenderClear(g->renderer);
               print_map(g, m);
-              SDL_RenderCopy(g->renderer, animation_sword(p, lastmove), NULL, &(p->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
+              SDL_RenderCopy(g->renderer, animation_sword(p, lastmove), NULL, &(p->rectSword)); // animation_sword.c
               SDL_RenderPresent(g->renderer);
               p->animation_index += 1;
               SDL_Delay(50);

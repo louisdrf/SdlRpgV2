@@ -18,38 +18,46 @@ int main(int argc, char **argv) {
 Game game; 
 Game *pgame = &game;
 
-Perso perso;
-    perso.positionX = 10;
-    perso.positionY = 10;
-    perso.rect.x = perso.positionX * TILESIZE;
-    perso.rect.y = perso.positionY * TILESIZE;
-    perso.rect.w = 36;
-    perso.rect.h = 36;
-    perso.xmap = 0; // coordonnees map x
-    perso.ymap = 0; // coordonnees map y
-    perso.speed = PERSO_SPEED;
-    perso.currentSprite = "../img/link/linkRight1.png";
-    perso.animation_index = 0;
-Perso *pperso = &perso; 
+Perso perso = {
+    .positionX = NBTILES/4,
+    .positionY = NBTILES/4,
+    .rect = {
+        .x = (NBTILES/4) * TILESIZE,
+        .y = (NBTILES/4) * TILESIZE,
+        .w = 36,
+        .h = 36
+    },
+    .xmap = 0,
+    .ymap = 0,
+    .speed = PERSO_SPEED,
+    .currentSprite = "../img/link/linkRight1.png",
+    .animation_index = 0,
+    .rectSword = {
+        .x = (NBTILES/4) * TILESIZE,
+        .y = (NBTILES/4) * TILESIZE,
+        .w = 40,
+        .h = 40
+    }
+};
+Perso *pperso = &perso;
 
 
-init_perso_animations(pperso); 
-init_perso_animations_attack(pperso);
-
-Map map;
-
-    map.x = 0;
-    map.y = 0;
-    map.currentMapPath = "../img/mapsZelda/map01.png";
-    map.rect.h = SCREEN_H;
-    map.rect.w = SCREEN_W;
-    map.rect.x = 0;
-    map.rect.y = 0;
-
+Map map = {
+    .x = 0,
+    .y = 0,
+    .currentMapPath = "../img/mapsZelda/map01.png",
+    .rect = {
+        .h = SCREEN_H,
+        .w = SCREEN_W,
+        .x = 0,
+        .y = 0
+    }
+};
 
 Map *pmap = &map;
 
-
+init_perso_animations(pperso); 
+init_perso_animations_attack(pperso);
 
 // init sdl
 sdl_init(pgame);

@@ -9,7 +9,7 @@
 void move(char *direction, Game *g, Perso *p, Map *m) {
 
 
-    if(strstr(direction, "left")) get_position_perso(p, m, g, "left");
+    if(strstr(direction, "left")) get_position_perso(p, m, g, "left"); // perso.c
     if(strstr(direction, "right")) get_position_perso(p, m, g, "right");
     if(strstr(direction, "up")) get_position_perso(p, m, g, "up");
     if(strstr(direction, "down")) get_position_perso(p, m, g, "down");
@@ -33,25 +33,46 @@ void actualize_perso_movement(char *direction, Game *g, Perso *p, Map *m) {
 }
 
 
-void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char *direction) { // mouvement avec vecteur
+void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char *direction) {
 
     int currentX = p->rect.x;
     int currentY = p->rect.y;
-    int deltaX = (targetX*TILESIZE) - currentX; 
-    int deltaY = (targetY*TILESIZE) - currentY;
+    int targetPosX = targetX * TILESIZE;
+    int targetPosY = targetY * TILESIZE;
+    int deltaX = targetPosX - currentX;
+    int deltaY = targetPosY - currentY;
     int totalDistance = abs(deltaX) + abs(deltaY);
-    int stepX = deltaX / (totalDistance / 1); // Division en étapes de 2 pixels
-    int stepY = deltaY / (totalDistance / 1); // Division en étapes de 2 pixels
+    int stepX = deltaX / (totalDistance / 2); // Division en étapes de 2 pixels
+    int stepY = deltaY / (totalDistance / 2); // Division en étapes de 2 pixels
 
-    while (currentX != (targetX*TILESIZE) || currentY != (targetY*TILESIZE)) {
+    //printf("target[%d][%d]\n", targetPosX, targetPosY);
 
-        currentX += stepX;
-        currentY += stepY;
-        
+    while (currentX != targetPosX || currentY != targetPosY) {
+
+        if (abs(currentX - targetPosX) < abs(stepX)) {
+            currentX = targetPosX;
+        } else {
+            currentX += stepX;
+        }
+
+        if (abs(currentY - targetPosY) < abs(stepY)) {
+            currentY = targetPosY;
+        } else {
+            currentY += stepY;
+        }
+
+        if(targetPosX < 0 || targetPosX > 720) {
+            change_map();
+        }
+
+        if(targetPosY < 0 || targetPosY > 720) {
+            change_map();
+        }
+
         p->rect.x = currentX;
         p->rect.y = currentY;
-        
-        SDL_Delay(3); 
+
+        SDL_Delay(5);
         actualize_perso_movement(direction, g, p, m);
     }
 }

@@ -14,7 +14,7 @@
 void launch_loop(Game *g, Perso *p, Map *m) {
 
     SDL_bool program_launched = SDL_TRUE;
-    Uint16 lastAnimTime = 0;
+    Uint32 lastAnimTime = 0;
     Uint8 delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
     char *lastmove;
 
@@ -24,11 +24,16 @@ void launch_loop(Game *g, Perso *p, Map *m) {
     print_image(g, p->currentSprite, &(p->rect));  // affichage perso
     SDL_RenderPresent(g->renderer);
 
+    lastmove = "right";
+
     while(program_launched) {
 
         SDL_Event event;   
 
         while(SDL_PollEvent(&event)) {
+
+            p->rectSword.x = p->rect.x;
+            p->rectSword.y = p->rect.y;
 
             switch(event.type) {
 
@@ -42,8 +47,8 @@ void launch_loop(Game *g, Perso *p, Map *m) {
 
                                 case SDLK_LEFT: 
 
-                                        if(!strstr(lastmove, "left")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
-                                        if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
+                                       if(!strstr(lastmove, "left")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
+                                       if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
                                                     move("left", g, p, m);
 
@@ -72,7 +77,7 @@ void launch_loop(Game *g, Perso *p, Map *m) {
 
                                 ///////////////////////////////////////////////
 
-                                case SDLK_UP: 
+                                case SDLK_UP:
 
                                         if(!strstr(lastmove, "up")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
@@ -91,7 +96,6 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                                 case SDLK_DOWN:
 
                                         if(!strstr(lastmove, "down")) delay_between_animations = 0;
-
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
                                                     move("down", g, p, m);
@@ -108,11 +112,8 @@ void launch_loop(Game *g, Perso *p, Map *m) {
 
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                            p->animation_index = 0;
-                                                            attack(g, p, m, lastmove);
-
+                                                            attack(g, p, m, lastmove); // perso.c
                                                             lastAnimTime = SDL_GetTicks();
-                                                            lastmove = "sword";
                                                             if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                                 }
                                 break;
@@ -125,7 +126,8 @@ void launch_loop(Game *g, Perso *p, Map *m) {
                 default:
                 break;
             } // fin switch event.type  
-        } // fin while SDL_PollEvent    
+        } // fin while SDL_PollEvent   
+ 
     } //fin de program_launched
 
 }
