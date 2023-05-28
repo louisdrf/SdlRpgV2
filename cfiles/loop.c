@@ -19,8 +19,9 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
     char *lastmove;
     lastmove = "right";
 
-    Map *m = gmap->gmap[p->xmap][p->ymap]; // on prend l'adresse de la map actuelle
-
+    Map *m = gmap->gmap[p->xmap][p->ymap]; // on recupere l'adresse de la map actuelle
+    //printf("map[%d][%d] : \n", p->xmap, p->ymap);
+    
 
     print_map(g, m); // affichage map
     print_image(g, p->currentSprite, &(p->rect));  // affichage perso

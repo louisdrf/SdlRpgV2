@@ -5,7 +5,7 @@
 #include "../headers/defines.h"
 
 
-int read_collisions(Map *m) {
+int read_collisions(Map *m) { // cree le tableau de collisions de la map a partir du fichier
 
      int i, j;
 
@@ -23,29 +23,30 @@ int read_collisions(Map *m) {
      while (fgets(line, sizeof(line), file) != NULL) {
         char *collision = strtok(line, ", ");
         col = 0;
-        while (collision != NULL && col < NBTILES) {
-            collisions[row][col] = atoi(collision);
-            collision = strtok(NULL, ", ");
-            col++;
-        }
+
+            while (collision != NULL && col < NBTILES) {
+
+                collisions[row][col] = atoi(collision);
+                collision = strtok(NULL, ", ");
+                col++;
+            }
         row++;
     }
-    fclose(file);
 
+    fclose(file);
+    memcpy(m->quadmap, collisions, sizeof(collisions));
 }
 
 
 void init_collisions(Map *map, Game *g) {
 
-    Uint16 quadmapValues[20][20];
-
     read_collisions(map);
             
-        Uint16 quadmapDivided[NBTILES][NBTILES];
+        int quadmapDivided[NBTILES][NBTILES];
 
             for (int i = 0; i < 20; i++) {
                 for (int j = 0; j < 20; j++) {
-                    int value = quadmapValues[i][j];
+                    int value = map->quadmap[i][j];
                     
                     for (int x = 0; x < NBMAPCUTS; x++) {
                         for (int y = 0; y < NBMAPCUTS; y++) {
@@ -56,8 +57,6 @@ void init_collisions(Map *map, Game *g) {
             }
 
         memcpy(map->quadmap, quadmapDivided, sizeof(quadmapDivided));
-        
-
 }
 
 
@@ -83,7 +82,7 @@ Globalmap *init_global_map(Game *g) {
             strcpy(maps[i][j].collisionMapPath, "../img/mapsZelda/collisions/map");
 
             char mapIndex[3];
-            sprintf(mapIndex, "%d%d", i , j);
+            sprintf(mapIndex, "%d%d", j , i);
             strcat(maps[i][j].currentMapPath, mapIndex);
             strcat(maps[i][j].collisionMapPath, mapIndex);
             strcat(maps[i][j].currentMapPath, ".png");
