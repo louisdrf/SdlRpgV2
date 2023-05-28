@@ -38,13 +38,13 @@ typedef struct Map {
     char *collisionMapPath;
     int x;
     int y;
-    Uint16 quadmap[NBTILES][NBTILES];
+    int quadmap[NBTILES][NBTILES];
 
 } Map; 
 
 typedef struct Globalmap {
 
-    Map *gmap[NBMAPSX][NBMAPSY];
+    Map *gmap[NBMAPSY][NBMAPSX];
 
 } Globalmap;
 

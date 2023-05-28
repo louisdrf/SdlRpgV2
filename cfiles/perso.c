@@ -6,9 +6,9 @@
 #include "../headers/animation_sword.h"
 
 
-void get_position_perso(Perso *p, Map *m, Game *g, char *direction) {
+void get_position_perso(Perso *p, Globalmap *gmap, Game *g, char *direction) {
 
-  get_collision(p, m, g, direction);
+  get_collision(p, gmap, g, direction);
 
   p->positionX = (p->rect.x)/TILESIZE;
   p->positionY = (p->rect.y)/TILESIZE;
@@ -16,39 +16,38 @@ void get_position_perso(Perso *p, Map *m, Game *g, char *direction) {
 }
 
 
-void get_collision(Perso *p, Map *m, Game *g, char *direction) {
+void get_collision(Perso *p, Globalmap *gmap, Game *g, char *direction) {
 
   // Y = ABSCISSE / X = ORDONNEE
+  Map *m = gmap->gmap[p->ymap][p->xmap]; // on recupere la map actuelle
 
     if(strstr(direction, "left")) {
-          // on regarde le point au milieu à gauche du personnage par rapport au mur
           if(m->quadmap[p->positionY + (p->rect.h/TILESIZE)/2][p->positionX - 1] == 0) {
 
-            fluid_move(p, m, g, (p->positionX - 1), (p->positionY), "left"); // on envoie les targets a fluid_move pour découper le mouvement
+            if((p->positionX - 1) <= 0) change_map(g, p, direction, gmap);
+            else fluid_move(p, m, g, (p->positionX - 1), (p->positionY), "left"); // on envoie les targets a fluid_move pour découper le mouvement
+            
           }
     }
-      
     else if(strstr(direction, "right")) {
-      // on regarde le point au milieu à droite du personnage par rapport au mur
         if(m->quadmap[p->positionY + (p->rect.h/TILESIZE)/2][(p->positionX + (p->rect.w/TILESIZE))] == 0) {
 
-          fluid_move(p, m, g, (p->positionX + 1), (p->positionY), "right");
+          if((p->positionX + 1) == (NBTILES-1))  change_map(g, p, direction, gmap);
+          else fluid_move(p, m, g, (p->positionX + 1), (p->positionY), "right");
         }
     }
-
     else if(strstr(direction, "up")) {
-      // on regarde le point en haut à gauche du personnage par rapport au mur
         if(m->quadmap[p->positionY - 1][p->positionX + (p->rect.w/TILESIZE)/2] == 0) {
 
-          fluid_move(p, m, g, p->positionX, (p->positionY - 1), "up");
+            if((p->positionY - 1) <= 0) change_map(g, p, direction, gmap);
+            else fluid_move(p, m, g, p->positionX, (p->positionY - 1), "up");
         } 
     }
-
     else if(strstr(direction, "down")) {
-        // on regarde le point au milieu bas du personnage par rapport au mur 
         if(m->quadmap[(p->positionY + (p->rect.h/TILESIZE))][p->positionX + (p->rect.w/TILESIZE)/2] == 0) {
 
-          fluid_move(p, m, g, p->positionX, (p->positionY + 1), "down"); // move.c
+            if((p->positionY + 1) == (NBTILES-1))  change_map(g, p, direction, gmap);
+            else fluid_move(p, m, g, p->positionX, (p->positionY + 1), "down"); // move.c
         }
 
     }
@@ -68,4 +67,23 @@ void attack(Game *g, Perso *p, Map *m, char *lastmove) {
               SDL_Delay(50);
     }
     p->animation_index = 0;
+}
+
+
+void change_map(Game *g, Perso *p, char *direction, Globalmap *gmap) {
+    if (strstr(direction, "left")) {
+        p->xmap -= 1;
+        p->rect.x = (SCREEN_W - (2 * (p->rect.w))); // on recale le perso à droite , vu qu'on va à gauche
+    } else if (strstr(direction, "right")) {
+        p->xmap += 1;
+        p->rect.x = p->rect.w; // on recale le perso à gauche , vu qu'on va à droite
+    } else if (strstr(direction, "up")) {
+        p->ymap -= 1;
+        p->rect.y = (SCREEN_H - (2 * (p->rect.h))); // on recale le perso en bas, vu qu'on va en haut
+    } else if (strstr(direction, "down")) {
+        p->ymap += 1;
+        p->rect.y = p->rect.h; // on recale le perso en haut, vu qu'on va en bas
+    }
+
+    actualize_perso_movement(direction, g, p, gmap->gmap[p->ymap][p->xmap]);
 }

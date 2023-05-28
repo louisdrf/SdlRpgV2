@@ -6,22 +6,18 @@
 #include "../headers/animation.h"
 #include "../headers/perso.h"
 
-void move(char *direction, Game *g, Perso *p, Map *m) {
+void move(char *direction, Game *g, Perso *p, Globalmap *gmap) {
 
 
-    if(strstr(direction, "left")) get_position_perso(p, m, g, "left"); // perso.c
-    if(strstr(direction, "right")) get_position_perso(p, m, g, "right");
-    if(strstr(direction, "up")) get_position_perso(p, m, g, "up");
-    if(strstr(direction, "down")) get_position_perso(p, m, g, "down");
-
-    actualize_perso_movement(direction, g, p, m);
+    if(strstr(direction, "left")) get_position_perso(p, gmap, g, "left"); // perso.c
+    if(strstr(direction, "right")) get_position_perso(p, gmap, g, "right");
+    if(strstr(direction, "up")) get_position_perso(p, gmap, g, "up");
+    if(strstr(direction, "down")) get_position_perso(p, gmap, g, "down");
     
         p->animation_index+=1;
         if(p->animation_index >= 4) p->animation_index = 0;
 
 }
-
-
 
 
 void actualize_perso_movement(char *direction, Game *g, Perso *p, Map *m) {
@@ -35,6 +31,7 @@ void actualize_perso_movement(char *direction, Game *g, Perso *p, Map *m) {
 
 void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char *direction) {
 
+
     int currentX = p->rect.x;
     int currentY = p->rect.y;
     int targetPosX = targetX * TILESIZE;
@@ -45,9 +42,8 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char 
     int stepX = deltaX / (totalDistance / 2); // Division en étapes de 2 pixels
     int stepY = deltaY / (totalDistance / 2); // Division en étapes de 2 pixels
 
-    //printf("target[%d][%d]\n", targetPosX, targetPosY);
-
     while (currentX != targetPosX || currentY != targetPosY) {
+
 
         if (abs(currentX - targetPosX) < abs(stepX)) {
             currentX = targetPosX;
@@ -61,18 +57,12 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char 
             currentY += stepY;
         }
 
-        if(targetPosX < 0 || targetPosX > 720) {
-            //change_map();
-        }
+             p->rect.x = currentX;
+             p->rect.y = currentY;
+    
 
-        if(targetPosY < 0 || targetPosY > 720) {
-            //change_map();
-        }
-
-        p->rect.x = currentX;
-        p->rect.y = currentY;
-
-        SDL_Delay(5);
+        SDL_Delay(8);
         actualize_perso_movement(direction, g, p, m);
     }
+
 }

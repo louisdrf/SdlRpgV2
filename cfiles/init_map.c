@@ -38,7 +38,7 @@ int read_collisions(Map *m) { // cree le tableau de collisions de la map a parti
 }
 
 
-void init_collisions(Map *map, Game *g) {
+void init_collisions(Map *map, Game *g) { // initialise le masque de collisions pour la map
 
     read_collisions(map);
             
@@ -63,7 +63,7 @@ void init_collisions(Map *map, Game *g) {
 
 Globalmap *init_global_map(Game *g) {
 
-    Map maps[NBMAPSX][NBMAPSY];
+    Map maps[NBMAPSY][NBMAPSX];
     Globalmap *pgmap = malloc((NBMAPSX * NBMAPSY) *sizeof(Map));
 
     for (int i = 0; i < NBMAPSX; i++) {
@@ -90,8 +90,8 @@ Globalmap *init_global_map(Game *g) {
 
             init_collisions(&(maps[i][j]), g);
 
-            pgmap->gmap[i][j] = malloc(sizeof(Map));
-            memcpy(pgmap->gmap[i][j], &(maps[i][j]), sizeof(Map)); // on copie les maps créées dans notre map globale
+            pgmap->gmap[j][i] = malloc(sizeof(Map));
+            memcpy(pgmap->gmap[j][i], &(maps[i][j]), sizeof(Map)); // on copie les maps créées dans notre map globale
         }
     }
     
