@@ -62,11 +62,11 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char 
         }
 
         if(targetPosX < 0 || targetPosX > 720) {
-            change_map();
+            //change_map();
         }
 
         if(targetPosY < 0 || targetPosY > 720) {
-            change_map();
+            //change_map();
         }
 
         p->rect.x = currentX;

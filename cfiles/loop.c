@@ -11,20 +11,22 @@
 
 
 
-void launch_loop(Game *g, Perso *p, Map *m) {
+void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
     SDL_bool program_launched = SDL_TRUE;
     Uint32 lastAnimTime = 0;
     Uint8 delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
     char *lastmove;
+    lastmove = "right";
+
+    Map *m = gmap->gmap[p->xmap][p->ymap]; // on prend l'adresse de la map actuelle
 
 
-    init_collisions(m, g); // initialise les collisions de la map
     print_map(g, m); // affichage map
     print_image(g, p->currentSprite, &(p->rect));  // affichage perso
     SDL_RenderPresent(g->renderer);
 
-    lastmove = "right";
+    
 
     while(program_launched) {
 

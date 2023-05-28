@@ -44,3 +44,11 @@ void sdl_close(Game *g) {
 
 
 }
+
+
+void clean_ressources(Globalmap *gmap, Perso *p) {
+
+    free(gmap);
+    free(p);
+    
+}

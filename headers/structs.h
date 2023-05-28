@@ -15,6 +15,7 @@ typedef struct Game {
 typedef struct Perso {
 
     SDL_Rect rect; 
+    SDL_Rect rectSword; 
     char *name; 
     int lifepoints;
     int speed; 
@@ -34,11 +35,18 @@ typedef struct Map {
 
     SDL_Rect rect; 
     char *currentMapPath; 
+    char *collisionMapPath;
     int x;
     int y;
     Uint16 quadmap[NBTILES][NBTILES];
 
 } Map; 
+
+typedef struct Globalmap {
+
+    Map *gmap[NBMAPSX][NBMAPSY];
+
+} Globalmap;
 
 
 #endif

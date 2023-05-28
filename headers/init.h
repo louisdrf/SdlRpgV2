@@ -4,6 +4,7 @@
 
 void sdl_init(Game *g);
 void sdl_close(Game *g);
+void clean_ressources(Globalmap *gmap, Perso *p);
 
 
 #endif
