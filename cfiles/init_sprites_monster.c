@@ -85,8 +85,8 @@ int is_pos_collision(int x, int y, Map *map, int id_monster) {
     int topY = y;
     int bottomY = y + (map->monsters[id_monster]->rect.h / TILESIZE);
 
-    if(map->quadmap[topY][leftX] == 0 && map->quadmap[bottomY][leftX] == 0
-        && map->quadmap[topY][rightX] == 0 && map->quadmap[bottomY][rightX] == 0)  {
+    if(map->quadmap[topY][leftX] != 0 || map->quadmap[bottomY][leftX] != 0
+        || map->quadmap[topY][rightX] != 0 || map->quadmap[bottomY][rightX] != 0) {
             return 1;
         }
         else {
@@ -103,7 +103,7 @@ void spawn(Monster *m, Game *g, Map *map, int id_monster) {
     int x = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS; // on evite que le monstre spawn dans les limites de la carte
     int y = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS;
 
-    while(is_pos_used(x, y, map, id_monster) != 0) {
+    while(is_pos_used(x, y, map, id_monster) != 0 || is_pos_collision(x, y, map, id_monster) != 0) {
 
          x = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS; 
          y = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS;
