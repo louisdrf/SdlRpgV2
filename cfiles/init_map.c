@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "../headers/structs.h"
 #include "../headers/defines.h"
 
@@ -63,11 +64,15 @@ void init_collisions(Map *map, Game *g) { // initialise le masque de collisions 
 
 Globalmap *init_global_map(Game *g) {
 
+    srand(time(NULL));
+
     Map maps[NBMAPSY][NBMAPSX];
     Globalmap *pgmap = malloc((NBMAPSX * NBMAPSY) *sizeof(Map));
 
     for (int i = 0; i < NBMAPSX; i++) {
         for (int j = 0; j < NBMAPSY; j++) {
+
+            int nbmonsters = rand() % NBMAXMONSTER + 1; // nombre de monstres pour la map
 
             maps[i][j].x = 0;
             maps[i][j].y = 0;
@@ -75,6 +80,7 @@ Globalmap *init_global_map(Game *g) {
             maps[i][j].rect.w = SCREEN_W;
             maps[i][j].rect.x = 0;
             maps[i][j].rect.y = 0;
+            maps[i][j].nbmonsters = nbmonsters;
 
             maps[i][j].currentMapPath = malloc(27); // 26 caracteres pour un chemin complet de map
             maps[i][j].collisionMapPath = malloc(27); 

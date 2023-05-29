@@ -5,6 +5,7 @@
 #include "../headers/move.h"
 #include "../headers/create_texture.h"
 #include "../headers/init_sprites.h"
+#include "../headers/init_sprites_monster.h"
 #include "../headers/init_map.h"
 #include "../headers/perso.h"
 
@@ -23,6 +24,7 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
     print_map(g, m); // affichage map
     print_image(g, p->currentSprite, &(p->rect));  // affichage perso
+    spawn_monsters(g, m); // spawn des monstres
     SDL_RenderPresent(g->renderer);
 
     
@@ -33,8 +35,8 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
         while(SDL_PollEvent(&event)) {
 
-            //p->rectSword.x = p->rect.x;
-            //p->rectSword.y = p->rect.y;
+            p->rectSword.x = p->rect.x;
+            p->rectSword.y = p->rect.y;
 
             switch(event.type) {
 
@@ -43,6 +45,8 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                     break;
 
                 case SDL_KEYDOWN: 
+
+                m = gmap->gmap[p->ymap][p->xmap]; // on recupere la map actuelle
                 
                     switch(event.key.keysym.sym) { 
 
@@ -100,12 +104,10 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                         if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
                                                     move("down", g, p, gmap);
-
                                                     lastAnimTime = SDL_GetTicks();
                                                     lastmove = "down";
                                                     if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                         }
-
                                 break;
 
 

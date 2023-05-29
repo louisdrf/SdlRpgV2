@@ -18,11 +18,11 @@ Game game;
 Game *pgame = &game;
 
 Perso perso = {
-    .positionX = NBTILES/4,
-    .positionY = NBTILES/4,
+    .positionX = NBTILES/2,
+    .positionY = NBTILES/2,
     .rect = {
-        .x = (NBTILES/4) * TILESIZE,
-        .y = (NBTILES/4) * TILESIZE,
+        .x = (NBTILES/2) * TILESIZE,
+        .y = (NBTILES/2) * TILESIZE,
         .w = 36,
         .h = 36
     },
@@ -34,8 +34,8 @@ Perso perso = {
     .rectSword = {
         .x = (NBTILES/4) * TILESIZE,
         .y = (NBTILES/4) * TILESIZE,
-        .w = 40,
-        .h = 40
+        .w = 42,
+        .h = 44
     }
 };
 Perso *pperso = &perso;
@@ -56,7 +56,6 @@ load_perso_animations(pperso, pgame); // load textures for character
 // init the main loop of the game
 launch_loop(pgame, pperso, pgmap);
 // close the game
-//clean_ressources(pgmap, pperso);
 sdl_close(pgame);
 
 

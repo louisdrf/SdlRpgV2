@@ -61,7 +61,7 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char 
              p->rect.y = currentY;
     
 
-        SDL_Delay(8);
+        SDL_Delay(4);
         actualize_perso_movement(direction, g, p, m);
     }
 
