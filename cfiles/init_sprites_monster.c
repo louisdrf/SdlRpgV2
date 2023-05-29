@@ -66,7 +66,7 @@ int is_pos_used(int x, int y, Map *map, int nbmonsters) {
         if(i != nbmonsters) {
 
                 int leftX = map->monsters[i]->positionX;
-                int rightX = map->monsters[i]->positionX + (map->monsters[i]->rect.w/TILESIZE);
+                int rightX = map->monsters[i]->positionX + (map->monsters[i]->rect.w/TILESIZE); // coordonnées du monstre dans le tableau 
                 int topY = map->monsters[i]->positionY;
                 int bottomY = map->monsters[i]->positionY + (map->monsters[i]->rect.h/TILESIZE);
 
@@ -85,11 +85,13 @@ int is_pos_collision(int x, int y, Map *map, int id_monster) {
     int topY = y;
     int bottomY = y + (map->monsters[id_monster]->rect.h / TILESIZE);
 
-    if(map->quadmap[leftX][rightX] != 0) {
-        return 1;
-    }  
-    
-    return 0;
+    if(map->quadmap[topY][leftX] == 0 && map->quadmap[bottomY][leftX] == 0
+        && map->quadmap[topY][rightX] == 0 && map->quadmap[bottomY][rightX] == 0)  {
+            return 1;
+        }
+        else {
+                 return 0;
+        }
 }
 
 
@@ -98,13 +100,13 @@ void spawn(Monster *m, Game *g, Map *map, int id_monster) {
     m->rect.h = 36;
     m->rect.w = 36;
 
-    int x = rand() % NBTILES + NBMAPCUTS; // on evite que le monstre spawn dans les limites de la carte
-    int y = rand() % NBTILES + NBMAPCUTS;
+    int x = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS; // on evite que le monstre spawn dans les limites de la carte
+    int y = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS;
 
     while(is_pos_used(x, y, map, id_monster) != 0) {
 
-         x = rand() % NBTILES + NBMAPCUTS; 
-         y = rand() % NBTILES + NBMAPCUTS;
+         x = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS; 
+         y = rand() % (NBTILES-NBMAPCUTS) + NBMAPCUTS;
     }
 
     m->positionX = x;
