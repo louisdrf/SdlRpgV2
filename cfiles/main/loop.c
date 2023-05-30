@@ -36,10 +36,17 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
     while(program_launched) {
 
+        SDL_Event event; 
+
         p->rectSword.x = p->rect.x;
         p->rectSword.y = p->rect.y;
 
-         SDL_Event event;   
+
+        if (SDL_GetTicks() - lastAnimTime >= DELAY_BETWEEN_ANIMATIONS_MONSTER) 
+        {
+                move_monster(g, m);
+                lastMoveMonsterTime = SDL_GetTicks();
+        }
 
                     while(SDL_PollEvent(&event)) {
 
