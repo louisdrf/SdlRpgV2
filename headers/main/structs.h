@@ -3,6 +3,13 @@
 #include <SDL.h>
 #include "defines.h"
 
+typedef enum {
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+} Direction;
+
 typedef struct Game {
     SDL_Window *window;
     SDL_Renderer *renderer;  

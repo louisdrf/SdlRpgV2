@@ -3,6 +3,6 @@
 #include <SDL.h>
 #include "../main/structs.h"
 
-SDL_Texture *animation_perso(Perso *p, char *direction); 
+SDL_Texture *animation_perso(Perso *p, int direction); 
 
 #endif

@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra $(shell sdl2-config --cflags)
+CFLAGS :=  $(shell sdl2-config --cflags)
 LIBS := $(shell sdl2-config --libs) -lSDL2_image
 
 SRCDIR := cfiles

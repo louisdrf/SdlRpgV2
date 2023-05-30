@@ -6,6 +6,7 @@
 #include "../../headers/init/create_texture.h"
 #include "../../headers/perso/init_sprites.h"
 #include "../../headers/monster/monster.h"
+#include "../../headers/monster/move_monster.h"
 #include "../../headers/init/init_map.h"
 #include "../../headers/perso/perso.h"
 
@@ -18,11 +19,11 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
     
     Uint32 lastAnimTime = 0;
     Uint32 lastAttackTime = 0;
+    Uint32 lastMoveMonsterTime = 0;
     Uint8 delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
     Uint8 delay_between_attacks = DELAY_BETWEEN_ATTACKS;
 
-    char *lastmove;
-    lastmove = "right";
+    int lastmove = RIGHT;
 
     Map *m = gmap->gmap[p->ymap][p->xmap]; // on recupere l'adresse de la map actuelle    
 
@@ -35,103 +36,100 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
     while(program_launched) {
 
-        SDL_Event event;   
+        p->rectSword.x = p->rect.x;
+        p->rectSword.y = p->rect.y;
 
-        while(SDL_PollEvent(&event)) {
+         SDL_Event event;   
 
-            p->rectSword.x = p->rect.x;
-            p->rectSword.y = p->rect.y;
+                    while(SDL_PollEvent(&event)) {
 
-            switch(event.type) {
+                        switch(event.type) {
 
-                case SDL_QUIT: 
-                    program_launched = SDL_FALSE; 
-                    break;
-
-                case SDL_KEYDOWN: 
-                
-                    switch(event.key.keysym.sym) { 
-
-                                case SDLK_LEFT: 
-
-                                       if(!strstr(lastmove, "left")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
-                                       if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
-
-                                                    move("left", g, p, gmap);
-
-                                                    lastAnimTime = SDL_GetTicks();
-                                                    lastmove = "left";
-                                                    if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
-                                        }
-
+                            case SDL_QUIT: 
+                                program_launched = SDL_FALSE; 
                                 break;
 
-                                ///////////////////////////////////////////////
+                            case SDL_KEYDOWN: 
+                            
+                                switch(event.key.keysym.sym) { 
 
-                                case SDLK_RIGHT: 
+                                            case SDLK_LEFT: 
 
-                                        if(!strstr(lastmove, "right")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
-                                        if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
+                                                if(lastmove != LEFT) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
+                                                if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                    move("right", g, p, gmap);
-                                                    
-                                                    lastAnimTime = SDL_GetTicks();
-                                                    lastmove = "right";
-                                                    if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
-                                        }
+                                                                move(LEFT, g, p, gmap);
+                                                                lastAnimTime = SDL_GetTicks();
+                                                                lastmove = LEFT;
+                                                                if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
+                                                    }
 
-                                break; 
+                                            break;
 
-                                ///////////////////////////////////////////////
+                                            ///////////////////////////////////////////////
 
-                                case SDLK_UP:
+                                            case SDLK_RIGHT: 
 
-                                        if(!strstr(lastmove, "up")) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
-                                        if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
+                                                    if(lastmove != RIGHT) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
+                                                    if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                    move("up", g, p, gmap);
+                                                                move(RIGHT, g, p, gmap);
+                                                                lastAnimTime = SDL_GetTicks();
+                                                                lastmove = RIGHT;
+                                                                if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
+                                                    }
 
-                                                    lastAnimTime = SDL_GetTicks();
-                                                    lastmove = "up";
-                                                    if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
-                                        }   
+                                            break; 
 
-                                break;
+                                            ///////////////////////////////////////////////
 
-                                ///////////////////////////////////////////////
+                                            case SDLK_UP:
 
-                                case SDLK_DOWN:
+                                                    if(lastmove != UP) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
+                                                    if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                        if(!strstr(lastmove, "down")) delay_between_animations = 0;
-                                        if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
+                                                                move(UP, g, p, gmap);
+                                                                lastAnimTime = SDL_GetTicks();
+                                                                lastmove = UP;
+                                                                if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
+                                                    }   
 
-                                                    move("down", g, p, gmap);
-                                                    lastAnimTime = SDL_GetTicks();
-                                                    lastmove = "down";
-                                                    if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
-                                        }
-                                break;
+                                            break;
+
+                                            ///////////////////////////////////////////////
+
+                                            case SDLK_DOWN:
+
+                                                    if(lastmove != DOWN) delay_between_animations = 0;
+                                                    if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
+
+                                                                move(DOWN, g, p, gmap);
+                                                                lastAnimTime = SDL_GetTicks();
+                                                                lastmove = DOWN;
+                                                                if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
+                                                    }
+                                            break;
 
 
-                                case SDLK_s: 
+                                            case SDLK_s: 
 
-                                        if (SDL_GetTicks() - lastAttackTime >= delay_between_attacks) {
+                                                    if (SDL_GetTicks() - lastAttackTime >= delay_between_attacks) {
 
-                                                            attack(g, p, m, lastmove); // perso.c
-                                                            lastAttackTime = SDL_GetTicks();
-                                                            if(delay_between_attacks == 0) delay_between_attacks = DELAY_BETWEEN_ATTACKS;
-                                                }
-                                break;
+                                                                        attack(g, p, m, lastmove); // perso.c
+                                                                        lastAttackTime = SDL_GetTicks();
+                                                                        if(delay_between_attacks == 0) delay_between_attacks = DELAY_BETWEEN_ATTACKS;
+                                                            }
+                                            break;
 
-                                ///////////////////////////////////////////////
-                                
-                                default:
-                                break;
-                    } // fin switch event.key
-                default:
-                break;
-            } // fin switch event.type  
-        } // fin while SDL_PollEvent   
+                                            ///////////////////////////////////////////////
+                                            
+                                            default:
+                                            break;
+                                } // fin switch event.key
+                            default:
+                            break;
+                        } // fin switch event.type  
+                    } // fin while SDL_PollEvent   
  
     } //fin de program_launched
 

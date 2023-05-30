@@ -6,21 +6,33 @@
 #include "../../headers/animation/animation.h"
 #include "../../headers/perso/perso.h"
 
-void move(char *direction, Game *g, Perso *p, Globalmap *gmap) {
+void move(int direction, Game *g, Perso *p, Globalmap *gmap) {
 
+    switch(direction) {
 
-    if(strstr(direction, "left")) get_position_perso(p, gmap, g, "left"); // perso.c
-    if(strstr(direction, "right")) get_position_perso(p, gmap, g, "right");
-    if(strstr(direction, "up")) get_position_perso(p, gmap, g, "up");
-    if(strstr(direction, "down")) get_position_perso(p, gmap, g, "down");
-    
+        case LEFT:
+        get_position_perso(p, gmap, g, LEFT);
+        break;
+        case RIGHT:
+        get_position_perso(p, gmap, g, RIGHT);
+        break;
+        case UP:
+        get_position_perso(p, gmap, g, UP);
+        break;
+        case DOWN:
+        get_position_perso(p, gmap, g, DOWN);
+        break;
+
+        default:
+        break;
+    }
         p->animation_index+=1;
         if(p->animation_index >= 4) p->animation_index = 0;
 
 }
 
 
-void actualize_perso_movement(char *direction, Game *g, Perso *p, Map *m) {
+void actualize_perso_movement(int direction, Game *g, Perso *p, Map *m) {
 
         SDL_RenderClear(g->renderer);
         print_map(g, m);
@@ -29,7 +41,7 @@ void actualize_perso_movement(char *direction, Game *g, Perso *p, Map *m) {
 }
 
 
-void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char *direction) {
+void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, int direction) {
 
 
     int currentX = p->rect.x;
@@ -41,6 +53,7 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char 
     int totalDistance = abs(deltaX) + abs(deltaY);
     int stepX = deltaX / (totalDistance / 2); // Division en étapes de 2 pixels
     int stepY = deltaY / (totalDistance / 2); // Division en étapes de 2 pixels
+
 
     while (currentX != targetPosX || currentY != targetPosY) {
 
@@ -61,7 +74,7 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, char 
              p->rect.y = currentY;
     
 
-        SDL_Delay(4);
+        SDL_Delay(5);
         actualize_perso_movement(direction, g, p, m);
     }
 
