@@ -3,6 +3,8 @@
         "string.h": "c",
         "perso.h": "c",
         "create_texture.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "init_sprites_monster.h": "c",
+        "structs.h": "c"
     }
 }
