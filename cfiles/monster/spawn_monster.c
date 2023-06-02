@@ -2,7 +2,7 @@
 #include <SDL_image.h>
 #include <string.h>
 #include <time.h>
-#include "../../headers/monster/monster.h"
+#include "../../headers/monster/spawn_monster.h"
 #include "../../headers/monster/init_sprites_monster.h"
 #include "../../headers/main/structs.h"
 #include "../../headers/init/create_texture.h"
@@ -70,6 +70,8 @@ void spawn(Monster *m, Game *g, Map *map, int id_monster) {
     m->rect.y = m->positionY*TILESIZE;
     m->currentSprite = m->animations[0][0];
     m->lifepoints = 50;
+    m->animation_index = 0;
+    m->direction = 0;
 
     print_image(g, m->currentSprite, &(m->rect));
     SDL_RenderPresent(g->renderer);

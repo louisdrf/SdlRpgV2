@@ -23,14 +23,10 @@ void sdl_init(Game *g) {
         exit(1);
     }   
 
-    g->buffer_draw = SDL_CreateTexture(g->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_W);
-    g->buffer_print = SDL_CreateTexture(g->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_W, SCREEN_W);
-
 }
 
 
 void sdl_close(Game *g) {
-
 
     if(g->renderer != NULL) {
         SDL_DestroyRenderer(g->renderer);

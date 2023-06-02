@@ -5,21 +5,28 @@
 #include "../../headers/init/create_texture.h"
 #include "../../headers/animation/animation.h"
 #include "../../headers/perso/perso.h"
+#include "../../headers/monster/move_monster.h"
+
+
 
 void move(int direction, Game *g, Perso *p, Globalmap *gmap) {
 
     switch(direction) {
 
         case LEFT:
+        p->currentSprite = p->animations[LEFT][p->animation_index];
         get_position_perso(p, gmap, g, LEFT);
         break;
         case RIGHT:
+        p->currentSprite = p->animations[RIGHT][p->animation_index];
         get_position_perso(p, gmap, g, RIGHT);
         break;
         case UP:
+        p->currentSprite = p->animations[UP][p->animation_index];
         get_position_perso(p, gmap, g, UP);
         break;
         case DOWN:
+        p->currentSprite = p->animations[DOWN][p->animation_index];
         get_position_perso(p, gmap, g, DOWN);
         break;
 
@@ -36,6 +43,7 @@ void actualize_perso_movement(int direction, Game *g, Perso *p, Map *m) {
 
         SDL_RenderClear(g->renderer);
         print_map(g, m);
+        print_monsters(g, m);
         SDL_RenderCopy(g->renderer, animation_perso(p, direction), NULL, &(p->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
         SDL_RenderPresent(g->renderer);
 }

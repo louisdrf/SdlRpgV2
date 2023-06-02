@@ -38,7 +38,7 @@ void load_monster_animations(Monster *m, Game *g) {
 
             for(j = 0; j < 4; j++) {
 
-                        SDL_Surface *currentSurface = IMG_Load(m->animations[i][j]); // on charge les images du perso avant de les utiliser
+                        SDL_Surface *currentSurface = IMG_Load(m->animations[i][j]); // on charge les images du monstre avant de les utiliser
                         if (currentSurface == NULL) {
                         printf("Erreur lors du chargement de l'image %s : %s\n", m->animations[i][j], IMG_GetError());
                         exit(1);

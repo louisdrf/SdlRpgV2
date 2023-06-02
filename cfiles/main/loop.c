@@ -5,7 +5,7 @@
 #include "../../headers/perso/move.h"
 #include "../../headers/init/create_texture.h"
 #include "../../headers/perso/init_sprites.h"
-#include "../../headers/monster/monster.h"
+#include "../../headers/monster/spawn_monster.h"
 #include "../../headers/monster/move_monster.h"
 #include "../../headers/init/init_map.h"
 #include "../../headers/perso/perso.h"
@@ -38,15 +38,13 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
         SDL_Event event; 
 
-        p->rectSword.x = p->rect.x;
-        p->rectSword.y = p->rect.y;
+        m = gmap->gmap[p->ymap][p->xmap];
 
-
-        if (SDL_GetTicks() - lastAnimTime >= DELAY_BETWEEN_ANIMATIONS_MONSTER) 
-        {
-                move_monster(g, m);
+            // Déplacer les monstres
+            if (SDL_GetTicks() - lastMoveMonsterTime >= DELAY_MOVE_MONSTER) {  
+                move_monster(g, m, p);
                 lastMoveMonsterTime = SDL_GetTicks();
-        }
+            }
 
                     while(SDL_PollEvent(&event)) {
 
@@ -61,6 +59,7 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                 switch(event.key.keysym.sym) { 
 
                                             case SDLK_LEFT: 
+                                            p->direction = LEFT;
 
                                                 if(lastmove != LEFT) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                                 if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
@@ -76,6 +75,7 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                             ///////////////////////////////////////////////
 
                                             case SDLK_RIGHT: 
+                                            p->direction = RIGHT;
 
                                                     if(lastmove != RIGHT) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                                     if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
@@ -91,6 +91,7 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                             ///////////////////////////////////////////////
 
                                             case SDLK_UP:
+                                            p->direction = UP;
 
                                                     if(lastmove != UP) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                                     if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
@@ -106,6 +107,7 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                             ///////////////////////////////////////////////
 
                                             case SDLK_DOWN:
+                                            p->direction = DOWN;
 
                                                     if(lastmove != DOWN) delay_between_animations = 0;
                                                     if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {

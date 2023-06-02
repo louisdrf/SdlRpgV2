@@ -6,27 +6,46 @@
 #include "../../headers/main/defines.h"
 #include "../../headers/init/create_texture.h"
 
-void move_monster(Game *g, Map *map) {
 
+void print_monsters(Game *g, Map *map) {
+
+    for (int i = 0; i < map->nbmonsters; i++) {
+
+        Monster *currentMonster = map->monsters[i];
+        SDL_Texture *currentTexture = currentMonster->animations_textures[currentMonster->direction][currentMonster->animation_index];
+
+        SDL_RenderCopy(g->renderer, currentTexture, NULL, &(currentMonster->rect));
+
+        currentMonster->animation_index += 1;
+        if (currentMonster->animation_index >= 4)  currentMonster->animation_index = 0;
+           
+    }
+}
+
+void move_monster(Game *g, Map *map, Perso *p) {
+    
     srand(time(NULL));
 
-    int idMonster = 0; // monstre qu'on va faire bouger
-    int distance = 0; // longueur du déplacement en nombre de cases
-    int direction = 0;
+    int nbMonsterToMove = rand() % map->nbmonsters;
 
-    idMonster = rand() % ((map->nbmonsters) - 1); // 0 à (nbmonster-1) 
-    distance = rand() % 4 + 1; // bouge de 0 à 3 cases
-    direction = rand() % 3; // LEFT(0) RIGHT UP DOWN(3)
+   for (int i = 0; i < nbMonsterToMove; i++) {
+        int idMonster = rand() % map->nbmonsters;
+        Monster *currentMonster = map->monsters[idMonster];
+        int distance = 1;
+        int direction = rand() % 3;
 
-    get_position_monster(idMonster, distance, direction, map, g);
+        currentMonster->direction = direction;
+
+        get_position_monster(idMonster, distance, direction, map, g, p);
+    }
 }
 
 
-void get_position_monster(int idMonster, int distance, int direction, Map *map, Game *g) {
+void get_position_monster(int idMonster, int distance, int direction, Map *map, Game *g, Perso *p) {
 
     Monster *m = map->monsters[idMonster]; 
 
-    get_collision_monster(g, m, map, direction, distance);
+    get_collision_monster(g, m, map, direction, distance, p);
 
     m->positionX = (m->rect.x)/TILESIZE;
     m->positionY = (m->rect.y)/TILESIZE;
@@ -34,7 +53,7 @@ void get_position_monster(int idMonster, int distance, int direction, Map *map, 
 
 
 
-void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int distance) {
+void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int distance, Perso *p) {
 
 // on recupere les coordonnées des cases adjacentes dans la map de collisions
 
@@ -47,19 +66,19 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int dis
     switch(direction) {
 
         case LEFT:
-        if(caseGauche == 0) fluid_move_monster(m, map, g, (m->positionX - distance), (m->positionY), direction); // on envoie la case cible a fluid_move_monster pour deplacer le monstre
+        if(caseGauche == 0) fluid_move_monster(m, map, g, (m->positionX - distance), (m->positionY), direction, p); // on envoie la case cible a fluid_move_monster pour deplacer le monstre
         break;
 
         case RIGHT:
-        if(caseGauche == 0) fluid_move_monster(m, map, g, (m->positionX + distance), (m->positionY), direction);
+        if(caseGauche == 0) fluid_move_monster(m, map, g, (m->positionX + distance), (m->positionY), direction, p);
         break;
 
         case UP:
-        if(caseHaut == 0) fluid_move_monster(m, map, g, (m->positionX), (m->positionY - distance), direction);
+        if(caseHaut == 0) fluid_move_monster(m, map, g, (m->positionX), (m->positionY - distance), direction, p);
         break;
 
         case DOWN:
-        if(caseBas == 0) fluid_move_monster(m, map, g, (m->positionX), (m->positionY + distance), direction);
+        if(caseBas == 0) fluid_move_monster(m, map, g, (m->positionX), (m->positionY + distance), direction, p);
         break;
 
         default:
@@ -67,15 +86,9 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int dis
     }
 }
 
-void actualize_monster_movement(int direction, Game *g, Monster *m, Map *map) {
 
-        SDL_RenderClear(g->renderer);
-        print_map(g, map);
-        SDL_RenderCopy(g->renderer, m->animations_textures[0][0], NULL, &(m->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
-        SDL_RenderPresent(g->renderer);
-}
 
-void fluid_move_monster(Monster *m, Map *map, Game *g, Uint16 targetX, Uint16 targetY, int direction) {
+void fluid_move_monster(Monster *m, Map *map, Game *g, Uint16 targetX, Uint16 targetY, int direction, Perso *p) {
 
     int currentX = m->rect.x;
     int currentY = m->rect.y;
@@ -105,9 +118,12 @@ void fluid_move_monster(Monster *m, Map *map, Game *g, Uint16 targetX, Uint16 ta
              m->rect.x = currentX;
              m->rect.y = currentY;
     
-
         SDL_Delay(5);
-        actualize_monster_movement(direction, g, m, map);
+        SDL_RenderClear(g->renderer);
+        print_map(g, map);
+        print_image(g, p->animations[p->direction][p->animation_index], &(p->rect)); 
+        SDL_RenderCopy(g->renderer, m->animations_textures[m->direction][m->animation_index], NULL, &(m->rect)); // animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
+        SDL_RenderPresent(g->renderer);
     }
 }
 

@@ -13,9 +13,6 @@ typedef enum {
 typedef struct Game {
     SDL_Window *window;
     SDL_Renderer *renderer;  
-    SDL_Texture *buffer_draw;
-    SDL_Texture *buffer_print;
-
 } Game; 
 
 
@@ -34,6 +31,7 @@ typedef struct Perso {
     int ymap;
     int positionX;
     int positionY;
+    int direction;
 
 } Perso;
 
@@ -48,7 +46,7 @@ typedef struct Monster {
     char *currentSprite; 
     int positionX;
     int positionY;
-    char *direction;
+    int direction;
 
 } Monster;
 

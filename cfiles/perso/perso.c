@@ -4,7 +4,7 @@
 #include "../../headers/perso/move.h"
 #include "../../headers/init/create_texture.h"
 #include "../../headers/animation/animation_sword.h"
-#include "../../headers/monster/monster.h"
+#include "../../headers/monster/spawn_monster.h"
 
 void get_position_perso(Perso *p, Globalmap *gmap, Game *g, int direction) {
 
@@ -13,7 +13,6 @@ void get_position_perso(Perso *p, Globalmap *gmap, Game *g, int direction) {
   p->positionX = (p->rect.x)/TILESIZE;
   p->positionY = (p->rect.y)/TILESIZE;
 
-  //printf("perso[%d][%d]\n", p->positionX, p->positionY);
 }
 
 
