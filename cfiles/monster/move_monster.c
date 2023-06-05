@@ -44,15 +44,70 @@ void get_position_monster(int idMonster, int distance, int direction, Map *map, 
 
     Monster *m = map->monsters[idMonster]; 
 
-    get_collision_monster(g, m, map, direction, distance, p);
+    get_collision_monster(g, m, map, direction, distance, p, idMonster);
 
     m->positionX = (m->rect.x)/TILESIZE;
     m->positionY = (m->rect.y)/TILESIZE;
 }
 
+int compare_monsters_collisions(Monster *m, Map *map, int direction, Perso *p, int idMonster) {
+
+    int xleft = m->positionX; 
+    int ytop = m->positionY; 
+    int xright = (m->positionX + (m->rect.w/TILESIZE)); // coordonnées du monstre à déplacer
+    int ybottom = (m->positionY + (m->rect.h/TILESIZE));
 
 
-void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int distance, Perso *p) {
+    for(int i = 0; i < map->nbmonsters; i++) {
+
+        Monster *currentM = map->monsters[i];
+
+        if(idMonster != i) {
+
+                int cmleftX = currentM->positionX;
+                int cmtopY = currentM->positionY ;
+                int cmrightX = currentM->positionX + (currentM->rect.w/TILESIZE); // coordonnées du monstre dans le tableau 
+                int cmbottomY = currentM->positionY + (currentM->rect.h/TILESIZE);
+
+            switch(direction) {
+
+                        case LEFT:
+                        if((xleft - 1) <= cmrightX) {
+                            if(ytop == cmtopY || ybottom == cmbottomY) return 1;
+                        }
+                        break;
+
+                        case RIGHT:
+                        if((xright + 1) <= cmleftX) {
+                            if(ytop == cmtopY || ybottom == cmbottomY) return 1;
+                        }
+                        break;
+
+                        case UP:
+                        if((ytop - 1) <= cmbottomY) {
+                            if(xleft <= cmrightX && xright >= cmleftX) return 1;
+                        }
+                        break;
+
+                        case DOWN:
+                        if((ybottom + 1) >= cmtopY) {
+                            if(xleft <= cmrightX && xright >= cmleftX) return 1;
+                        }
+                        break;
+
+                        default:
+                        break;
+            }
+
+        }
+    }
+
+    return 0;
+}
+
+
+
+void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int distance, Perso *p, int idMonster) {
 
 // on recupere les coordonnées des cases adjacentes dans la map de collisions
 
@@ -65,19 +120,19 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int dis
     switch(direction) {
 
         case LEFT:
-        if(caseGauche == 0) make_move_monster(m, map, g, direction, p); // on envoie la case cible a fluid_move_monster pour deplacer le monstre
+        if(caseGauche == 0 && compare_monsters_collisions(m, map, direction, p, idMonster) == 0) make_move_monster(m, map, g, direction, p); // on envoie la case cible a fluid_move_monster pour deplacer le monstre
         break;
 
         case RIGHT:
-        if(caseDroite == 0) make_move_monster(m, map, g, direction, p);
+        if(caseDroite == 0 && compare_monsters_collisions(m, map, direction, p, idMonster) == 0) make_move_monster(m, map, g, direction, p);
         break;
 
         case UP:
-        if(caseHaut == 0) make_move_monster(m, map, g, direction, p);
+        if(caseHaut == 0 && compare_monsters_collisions(m, map, direction, p, idMonster) == 0) make_move_monster(m, map, g, direction, p);
         break;
 
         case DOWN:
-        if(caseBas == 0) make_move_monster(m, map, g, direction, p);
+        if(caseBas == 0 && compare_monsters_collisions(m, map, direction, p, idMonster) == 0) make_move_monster(m, map, g, direction, p);
         break;
 
         default:
