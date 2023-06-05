@@ -55,6 +55,10 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                 break;
 
                             case SDL_KEYDOWN: 
+
+                            p->rectSword.x = p->rect.x;
+                            p->rectSword.y = p->rect.y;
+
                             
                                 switch(event.key.keysym.sym) { 
 

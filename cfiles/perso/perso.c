@@ -5,6 +5,8 @@
 #include "../../headers/init/create_texture.h"
 #include "../../headers/animation/animation_sword.h"
 #include "../../headers/monster/spawn_monster.h"
+#include "../../headers/monster/move_monster.h"
+
 
 void get_position_perso(Perso *p, Globalmap *gmap, Game *g, int direction) {
 
@@ -69,6 +71,7 @@ void attack(Game *g, Perso *p, Map *m, int lastmove) {
     for(int i = 0; i<4; i++) {
 
               print_map(g, m);
+              print_monsters(g, m);
               SDL_RenderCopy(g->renderer, animation_sword(p, lastmove), NULL, &(p->rectSword)); // animation_sword.c
               SDL_RenderPresent(g->renderer);
               SDL_Delay(50);
@@ -107,6 +110,7 @@ void change_map(Game *g, Perso *p, int direction, Globalmap *gmap) {
                 break;
         }
 
-    actualize_perso_movement(direction, g, p, gmap->gmap[p->ymap][p->xmap]);
     spawn_monsters(g, gmap->gmap[p->ymap][p->xmap]);
+    actualize_perso_movement(direction, g, p, gmap->gmap[p->ymap][p->xmap]);
+    
 }

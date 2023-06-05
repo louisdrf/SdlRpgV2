@@ -56,10 +56,10 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int dis
 
 // on recupere les coordonnées des cases adjacentes dans la map de collisions
 
-    int caseGauche = map->quadmap[m->positionY + (m->rect.h/TILESIZE)/2][m->positionX - 1];
-    int caseDroite = map->quadmap[m->positionY + (m->rect.h/TILESIZE)/2][(m->positionX + (m->rect.w/TILESIZE))];
-    int caseHaut = map->quadmap[m->positionY - 1][m->positionX + (m->rect.w/TILESIZE)/2];
-    int caseBas = map->quadmap[(m->positionY + (m->rect.h/TILESIZE))][m->positionX + (m->rect.w/TILESIZE)/2];
+    int caseGauche = map->quadmap[m->positionY][m->positionX - 1];
+    int caseDroite = map->quadmap[m->positionY][(m->positionX + (m->rect.w/TILESIZE)) + 1];
+    int caseHaut = map->quadmap[m->positionY - 1][m->positionX];
+    int caseBas = map->quadmap[m->positionY + 1][m->positionX];
 
 //
     switch(direction) {
