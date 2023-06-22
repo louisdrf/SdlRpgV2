@@ -9,25 +9,31 @@
 
 
 
-void move(int direction, Game *g, Perso *p, Globalmap *gmap) {
+void move(Game *g, Perso *p, Globalmap *gmap) {
 
-    switch(direction) {
+    int direction = p->direction;
+    int index = p->animation_index;
+
+    switch(p->direction) {
 
         case LEFT:
-        p->currentSprite = p->animations[LEFT][p->animation_index];
-        get_position_perso(p, gmap, g, LEFT);
+        p->currentSprite = p->animations[direction][index];
+        get_position_perso(p, gmap, g);
         break;
+
         case RIGHT:
-        p->currentSprite = p->animations[RIGHT][p->animation_index];
-        get_position_perso(p, gmap, g, RIGHT);
+        p->currentSprite = p->animations[direction][index];
+        get_position_perso(p, gmap, g);
         break;
+
         case UP:
-        p->currentSprite = p->animations[UP][p->animation_index];
-        get_position_perso(p, gmap, g, UP);
+        p->currentSprite = p->animations[direction][index];
+        get_position_perso(p, gmap, g);
         break;
+
         case DOWN:
-        p->currentSprite = p->animations[DOWN][p->animation_index];
-        get_position_perso(p, gmap, g, DOWN);
+        p->currentSprite = p->animations[direction][index];
+        get_position_perso(p, gmap, g);
         break;
 
         default:
@@ -39,19 +45,19 @@ void move(int direction, Game *g, Perso *p, Globalmap *gmap) {
 }
 
 
-void actualize_perso_movement(int direction, Game *g, Perso *p, Map *m) {
+void actualize_perso_movement(Game *g, Perso *p, Map *m) {
+
+    refresh_position_persoXY(p);
 
         SDL_RenderClear(g->renderer);
         print_map(g, m);
         print_monsters(g, m);
-        SDL_RenderCopy(g->renderer, animation_perso(p, direction), NULL, &(p->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
+        SDL_RenderCopy(g->renderer, animation_perso(p), NULL, &(p->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
         SDL_RenderPresent(g->renderer);
-
-        refresh_position_persoXY(p);
 }
 
 
-void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, int direction) {
+void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY) {
 
 
     int currentX = p->rect.x;
@@ -84,8 +90,8 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY, int d
              p->rect.y = currentY;
     
 
-        SDL_Delay(5);
-        actualize_perso_movement(direction, g, p, m);
+        SDL_Delay(7);
+        actualize_perso_movement(g, p, m);
     }
 
 }

@@ -30,11 +30,11 @@ void move_monster(Game *g, Map *map, Perso *p) {
         int idMonster = rand() % map->nbmonsters;
         Monster *currentMonster = map->monsters[idMonster];
         int distance = 1;
-        int direction = rand() % 3;
+        int direction = rand() % 4;
 
         currentMonster->direction = direction;
 
-        get_position_monster(idMonster, distance, direction, map, g, p);
+        get_position_monster(idMonster, distance, map, g, p);
         currentMonster->animation_index += 1;
         if (currentMonster->animation_index >= 4)  currentMonster->animation_index = 0;
     }
@@ -42,9 +42,9 @@ void move_monster(Game *g, Map *map, Perso *p) {
 }
 
 
-void make_move_monster(Monster *m, Map *map, Game *g, int direction, Perso *p) {
+void make_move_monster(Monster *m, Map *map, Game *g, Perso *p) {
 
-        switch(direction) {
+        switch(m->direction) {
 
             case LEFT:
             m->rect.x -= TILESIZE;

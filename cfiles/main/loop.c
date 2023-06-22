@@ -25,8 +25,8 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
     int lastmove = RIGHT;
 
-    Map *m = gmap->gmap[p->ymap][p->xmap]; // on recupere l'adresse de la map actuelle    
-
+    Map *m = gmap->gmap[p->ymap][p->xmap]; // on recupere l'adresse de la map actuelle
+    
     print_map(g, m); // affichage map
     print_image(g, p->currentSprite, &(p->rect));  // affichage perso
     spawn_monsters(g, m); // spawn des monstres
@@ -35,6 +35,9 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
     
 
     while(program_launched) {
+
+        refresh_position_persoXY(p);
+        m->quadmap[p->positionY][p->positionX] = 1;
 
         SDL_Event event; 
 
@@ -64,15 +67,17 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
                                             case SDLK_LEFT: 
                                             p->direction = LEFT;
-
+                                    
                                                 if(lastmove != LEFT) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                                 if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                                move(LEFT, g, p, gmap);
+                                                                move(g, p, gmap);
                                                                 lastAnimTime = SDL_GetTicks();
                                                                 lastmove = LEFT;
                                                                 if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                                     }
+
+                                                free_cell(p, m);
 
                                             break;
 
@@ -84,11 +89,13 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                                     if(lastmove != RIGHT) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                                     if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                                move(RIGHT, g, p, gmap);
+                                                                move(g, p, gmap);
                                                                 lastAnimTime = SDL_GetTicks();
                                                                 lastmove = RIGHT;
                                                                 if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                                     }
+
+                                                    free_cell(p, m);
 
                                             break; 
 
@@ -100,11 +107,13 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                                     if(lastmove != UP) delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
                                                     if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                                move(UP, g, p, gmap);
+                                                                move(g, p, gmap);
                                                                 lastAnimTime = SDL_GetTicks();
                                                                 lastmove = UP;
                                                                 if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                                     }   
+
+                                                    free_cell(p, m);
 
                                             break;
 
@@ -116,11 +125,13 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                                     if(lastmove != DOWN) delay_between_animations = 0;
                                                     if (SDL_GetTicks() - lastAnimTime >= delay_between_animations) {
 
-                                                                move(DOWN, g, p, gmap);
+                                                                move(g, p, gmap);
                                                                 lastAnimTime = SDL_GetTicks();
                                                                 lastmove = DOWN;
                                                                 if(delay_between_animations == 0) delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
                                                     }
+
+                                                    free_cell(p, m);
                                             break;
 
 

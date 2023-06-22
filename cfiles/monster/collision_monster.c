@@ -9,7 +9,7 @@
 
 
 
-void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int distance, Perso *p, int idMonster) {
+void get_collision_monster(Game *g, Monster *m, Map *map, int distance, Perso *p, int idMonster) {
 
 // on recupere les coordonnées des cases adjacentes dans la map de collisions
 
@@ -19,22 +19,22 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int dis
     int caseBas = map->quadmap[m->positionY + (m->rect.h/TILESIZE) + 1][m->positionX + ((m->rect.w/TILESIZE) / 2)];
 
 //
-    switch(direction) {
+    switch(m->direction) {
 
         case LEFT:
-        if(caseGauche == 0) make_move_monster(m, map, g, direction, p); 
+        if(caseGauche == 0) make_move_monster(m, map, g, p); 
         break;
 
         case RIGHT:
-        if(caseDroite == 0) make_move_monster(m, map, g, direction, p);
+        if(caseDroite == 0) make_move_monster(m, map, g, p);
         break;
 
         case UP:
-        if(caseHaut == 0) make_move_monster(m, map, g, direction, p);
+        if(caseHaut == 0) make_move_monster(m, map, g, p);
         break;
 
         case DOWN:
-        if(caseBas == 0) make_move_monster(m, map, g, direction, p);
+        if(caseBas == 0) make_move_monster(m, map, g, p);
         break;
 
         default:
@@ -43,17 +43,17 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int direction, int dis
 }
 
 
-void get_position_monster(int idMonster, int distance, int direction, Map *map, Game *g, Perso *p) {
+void get_position_monster(int idMonster, int distance, Map *map, Game *g, Perso *p) {
 
     Monster *m = map->monsters[idMonster]; 
 
-    get_collision_monster(g, m, map, direction, distance, p, idMonster); // move si case disponible
+    get_collision_monster(g, m, map, distance, p, idMonster); // move si case disponible
     refresh_position_monsterXY(m);
 }
 
 
 void refresh_position_monsterXY(Monster *m) {
-    
+
     m->positionX = (m->rect.x)/TILESIZE;
     m->positionY = (m->rect.y)/TILESIZE;
 }

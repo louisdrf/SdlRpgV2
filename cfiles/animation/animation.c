@@ -4,9 +4,9 @@
 #include "../../headers/animation/animation.h"
 
 
-SDL_Texture *animation_perso(Perso *p, int direction) {
+SDL_Texture *animation_perso(Perso *p) {
 
-     switch(direction) {
+     switch(p->direction) {
 
                         case LEFT:
                                 switch(p->animation_index) {
