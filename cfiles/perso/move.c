@@ -95,3 +95,15 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY) {
     }
 
 }
+
+
+void timed_move(Perso *p, Game *g, Globalmap *gmap, int actualMove) {
+
+        if(actualMove != p->lastmove) p->delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
+        if (SDL_GetTicks() - p->lastAnimTime >= p->delay_between_animations) {
+                move(g, p, gmap);
+                p->lastAnimTime = SDL_GetTicks();
+                p->lastmove = actualMove;
+        if(p->delay_between_animations == 0) p->delay_between_animations = DELAY_BETWEEN_ANIMATIONS;
+        }
+}

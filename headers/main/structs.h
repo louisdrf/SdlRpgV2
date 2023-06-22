@@ -18,6 +18,11 @@ typedef struct Game {
 
 typedef struct Perso {
 
+    Uint32 lastAnimTime;
+    Uint32 lastAttackTime;
+    Uint8 delay_between_animations;
+    Uint8 delay_between_attacks;
+    Uint8 lastmove;
     SDL_Rect rect; 
     SDL_Rect rectSword; 
     char *name; 

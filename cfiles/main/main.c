@@ -11,6 +11,7 @@
 #include "../headers/main/loop.h"
 #include "../../headers/perso/init_sprites.h"
 #include "../../headers/init/init_map.h"
+#include "../headers/main/defines.h"
 
 int main() {
 
@@ -18,6 +19,10 @@ Game game;
 Game *pgame = &game;
 
 Perso perso = {
+    .delay_between_animations = DELAY_BETWEEN_ANIMATIONS,
+    .delay_between_attacks = DELAY_BETWEEN_ATTACKS,
+    .lastAnimTime = 0,
+    .lastmove = DOWN,
     .positionX = NBTILES/2,
     .positionY = NBTILES/2,
     .rect = {
