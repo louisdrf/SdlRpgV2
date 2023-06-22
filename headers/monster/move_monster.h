@@ -6,5 +6,7 @@
 void print_monsters(Game *g, Map *m);
 void move_monster(Game *g, Map *map, Perso *p);
 void make_move_monster(Monster *m, Map *map, Game *g, int direction, Perso *p);
+void actualize_map_collisions(Map *map);
+
 
 #endif

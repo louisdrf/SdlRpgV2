@@ -7,14 +7,16 @@
 #include "../../headers/monster/spawn_monster.h"
 #include "../../headers/monster/move_monster.h"
 
+void refresh_position_persoXY(Perso *p) {
+
+    p->positionX = (p->rect.x)/TILESIZE;
+    p->positionY = (p->rect.y)/TILESIZE;
+}
 
 void get_position_perso(Perso *p, Globalmap *gmap, Game *g, int direction) {
 
-  get_collision(p, gmap, g, direction);
-
-  p->positionX = (p->rect.x)/TILESIZE;
-  p->positionY = (p->rect.y)/TILESIZE;
-
+     get_collision(p, gmap, g, direction);
+     refresh_position_persoXY(p);
 }
 
 
@@ -33,28 +35,44 @@ void get_collision(Perso *p, Globalmap *gmap, Game *g, int direction) {
                         case LEFT:
                         if(caseGauche == 0) {
                                 if((p->positionX - NBMAPCUTS) <= 0) change_map(g, p, direction, gmap);
-                                else fluid_move(p, m, g, (p->positionX - 1), (p->positionY), direction); // on envoie les targets a fluid_move pour découper le mouvement
+                                else {
+                                    m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
+                                    fluid_move(p, m, g, (p->positionX - 1), (p->positionY), direction); 
+                                    m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
+                                }
                             }
                         break;
 
                         case RIGHT:
                         if(caseDroite == 0) {
                             if((p->positionX + 1) == (NBTILES-NBMAPCUTS))  change_map(g, p, direction, gmap);
-                            else fluid_move(p, m, g, (p->positionX + 1), (p->positionY), direction);
+                            else {
+                                m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
+                                fluid_move(p, m, g, (p->positionX + 1), (p->positionY), direction);
+                                m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
+                            }
                             }
                         break;
 
                         case UP:
                         if(caseHaut == 0) {
                                 if((p->positionY - NBMAPCUTS) <= 0) change_map(g, p, direction, gmap);
-                                else fluid_move(p, m, g, p->positionX, (p->positionY - 1), direction);
+                                else {
+                                    m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
+                                    fluid_move(p, m, g, p->positionX, (p->positionY - 1), direction);
+                                    m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
+                                }
                             } 
                         break;
 
                         case DOWN:
                         if(caseBas == 0) {
                                 if((p->positionY + NBMAPCUTS) == (NBTILES-1))  change_map(g, p, direction, gmap);
-                                else fluid_move(p, m, g, p->positionX, (p->positionY + 1), direction); 
+                                else {
+                                    m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
+                                    fluid_move(p, m, g, p->positionX, (p->positionY + 1), direction); 
+                                    m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
+                                }
                             }
                         break;
 
@@ -109,8 +127,6 @@ void change_map(Game *g, Perso *p, int direction, Globalmap *gmap) {
                 default:
                 break;
         }
-
     spawn_monsters(g, gmap->gmap[p->ymap][p->xmap]);
     actualize_perso_movement(direction, g, p, gmap->gmap[p->ymap][p->xmap]);
-    
 }

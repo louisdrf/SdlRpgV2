@@ -26,6 +26,7 @@ void move_monster(Game *g, Map *map, Perso *p) {
     int nbMonsterToMove = rand() % map->nbmonsters;
 
    for (int i = 0; i < nbMonsterToMove; i++) {
+
         int idMonster = rand() % map->nbmonsters;
         Monster *currentMonster = map->monsters[idMonster];
         int distance = 1;
@@ -46,19 +47,31 @@ void make_move_monster(Monster *m, Map *map, Game *g, int direction, Perso *p) {
         switch(direction) {
 
             case LEFT:
+            map->quadmap[m->positionY][m->positionX] = 0; // le monstre va bouger donc sa case devient libre
             m->rect.x -= TILESIZE;
+            refresh_position_monsterXY(m);                // on actualise la position X et Y du monstre sur la map de collisions
+            map->quadmap[m->positionY][m->positionX] = 1;
             break;
 
             case RIGHT:
+            map->quadmap[m->positionY][m->positionX] = 0;
             m->rect.x += TILESIZE;
+            refresh_position_monsterXY(m);
+            map->quadmap[m->positionY][m->positionX] = 1;
             break;
 
             case UP:
+            map->quadmap[m->positionY][m->positionX] = 0; 
             m->rect.y -= TILESIZE;
+            refresh_position_monsterXY(m);
+            map->quadmap[m->positionY][m->positionX] = 1;
             break;
 
             case DOWN:
+            map->quadmap[m->positionY][m->positionX] = 0; 
             m->rect.y += TILESIZE;
+            refresh_position_monsterXY(m);
+            map->quadmap[m->positionY][m->positionX] = 1;
             break;
 
             default:

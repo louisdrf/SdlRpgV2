@@ -35,7 +35,7 @@ Perso perso = {
         .x = (NBTILES/4) * TILESIZE,
         .y = (NBTILES/4) * TILESIZE,
         .w = 42,
-        .h = 44
+        .h = 42
     }
 };
 Perso *pperso = &perso;

@@ -46,6 +46,8 @@ void actualize_perso_movement(int direction, Game *g, Perso *p, Map *m) {
         print_monsters(g, m);
         SDL_RenderCopy(g->renderer, animation_perso(p, direction), NULL, &(p->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
         SDL_RenderPresent(g->renderer);
+
+        refresh_position_persoXY(p);
 }
 
 

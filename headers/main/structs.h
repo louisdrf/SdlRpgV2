@@ -32,6 +32,7 @@ typedef struct Perso {
     int positionX;
     int positionY;
     int direction;
+    int next_cells[4];
 
 } Perso;
 
@@ -47,6 +48,7 @@ typedef struct Monster {
     int positionX;
     int positionY;
     int direction;
+    int next_cells[4];
 
 } Monster;
 

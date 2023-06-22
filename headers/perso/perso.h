@@ -7,5 +7,6 @@ void get_position_perso(Perso *p, Globalmap *gmap, Game *g, int direction);
 void get_collision(Perso *p, Globalmap *gmap, Game *g, int direction);
 void attack(Game *g, Perso *p, Map *m, int lastmove);
 void change_map(Game *g, Perso *p, int direction, Globalmap *gmap);
+void refresh_position_persoXY(Perso *p);
 
 #endif
