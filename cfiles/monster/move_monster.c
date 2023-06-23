@@ -15,8 +15,11 @@ void print_monsters(Game *g, Map *map) {
         int direction = currentMonster->direction;
         int animation = currentMonster->animation_index;
 
-        SDL_Texture *currentTexture = currentMonster->animations_textures[direction][animation];
-        SDL_RenderCopy(g->renderer, currentTexture, NULL, &(currentMonster->rect));           
+        if(currentMonster->isAlive == true) {
+            SDL_Texture *currentTexture = currentMonster->animations_textures[direction][animation];
+            SDL_RenderCopy(g->renderer, currentTexture, NULL, &(currentMonster->rect)); 
+        }
+                  
     }
 }
 
@@ -26,20 +29,23 @@ void move_monster(Game *g, Map *map, Perso *p) {
 
     int nbMonsterToMove = rand() % (map->nbmonsters) + 1;
 
-   for (int i = 0; i < nbMonsterToMove; i++) {
+        for (int i = 0; i < nbMonsterToMove; i++) {
 
-        int idMonster = rand() % map->nbmonsters;
-        Monster *currentMonster = map->monsters[idMonster];
-        int distance = 1;
-        int direction = rand() % 4;
+                int idMonster = rand() % map->nbmonsters;
+                Monster *currentMonster = map->monsters[idMonster];
 
-        currentMonster->direction = direction;
+                    if(currentMonster->isAlive == true) {
 
-        get_position_monster(idMonster, distance, map, g, p);
-        currentMonster->animation_index += 1;
-        if (currentMonster->animation_index >= 4)  currentMonster->animation_index = 0;
-    }
-            
+                            int distance = 1;
+                            int direction = rand() % 4;
+
+                            currentMonster->direction = direction;
+
+                            get_position_monster(idMonster, distance, map, g, p);
+                            currentMonster->animation_index += 1;
+                            if (currentMonster->animation_index >= 4)  currentMonster->animation_index = 0;
+                    }
+            }  
 }
 
 

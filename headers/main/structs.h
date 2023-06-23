@@ -1,6 +1,7 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 #include <SDL.h>
+#include <stdbool.h>
 #include "defines.h"
 
 typedef enum {
@@ -34,9 +35,10 @@ typedef struct Perso {
     char *currentSprite; 
     int xmap;
     int ymap;
-    int positionX;
-    int positionY;
-    int direction;
+    Uint8 positionX;
+    Uint8 positionY;
+    Uint8 direction;
+    int damage;
 
 } Perso;
 
@@ -52,6 +54,7 @@ typedef struct Monster {
     int positionX;
     int positionY;
     int direction;
+    bool isAlive;
     
 } Monster;
 

@@ -4,6 +4,7 @@
 #define SCREEN_H 720
 #define SCREEN_W 720
 #define PERSO_SPEED 36 // deplacement en pixels du perso
+#define PERSO_DAMAGE 30 // degats du perso
 #define NB_PERSO_ANIMATIONS 8 // nb d'animations differentes du personnage
 #define DELAY_BETWEEN_ANIMATIONS 12 // en ms
 #define DELAY_BETWEEN_ATTACKS 200

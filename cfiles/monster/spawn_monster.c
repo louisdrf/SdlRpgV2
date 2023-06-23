@@ -72,6 +72,7 @@ void spawn(Monster *m, Game *g, Map *map, int id_monster) {
     m->lifepoints = 50;
     m->animation_index = 0;
     m->direction = 0;
+    m->isAlive = true;
 
     map->quadmap[m->positionY][m->positionX] = 2; // on indique qu'un monstre est présent sur une case en affectant la valeur 2
 

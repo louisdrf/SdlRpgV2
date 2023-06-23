@@ -11,7 +11,16 @@
 void attack(Game *g, Perso *p, Map *m, int lastmove) {
 
     if(does_attack_touch(p, m)) {
+
+        Monster *touchedMonster = get_touched_monster(m, p);
+
+        if(touchedMonster != NULL) touchedMonster->lifepoints -= p->damage;
         
+                if(touchedMonster->lifepoints <= 0) 
+                {
+                    touchedMonster->isAlive = false;
+                    m->quadmap[touchedMonster->positionY][touchedMonster->positionX] = 0; // on tue le monstre et on le fait disparaitre de la carte
+                }
     }
 
         p->animation_index = 0;
@@ -48,11 +57,45 @@ bool does_attack_touch(Perso *p, Map *m) {
         if(caseHaut == 2) return true;
         break;
 
-
         case DOWN:
         if(caseBas == 2) return true;
         break;
     }
 
     return false;
+}
+
+
+Monster *get_touched_monster(Map *m, Perso *p) {
+
+    int targetX = p->positionX;
+    int targetY = p->positionY;
+
+    switch(p->lastmove) {
+
+            case LEFT:
+                targetX -= 1;
+                break;
+
+            case RIGHT:
+                targetX += 1;
+                break;
+
+            case UP:
+                targetY -= 1;
+                break;
+
+            case DOWN:
+                targetY += 1;
+                break;
+    }
+
+    for (int i = 0; i < m->nbmonsters; i++) {
+        Monster *currentMonster = m->monsters[i];
+        if (currentMonster->positionX == targetX && currentMonster->positionY == targetY) {
+            return currentMonster;
+        }
+    }
+
+    return NULL; 
 }

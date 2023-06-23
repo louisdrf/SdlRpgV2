@@ -34,6 +34,7 @@ Perso perso = {
     .xmap = 0,
     .ymap = 0,
     .speed = PERSO_SPEED,
+    .damage = PERSO_DAMAGE,
     .lifepoints = 100,
     .currentSprite = "img/link/linkRight1.png",
     .animation_index = 0,
