@@ -14,8 +14,11 @@ void attack(Game *g, Perso *p, Map *m, int lastmove) {
 
         Monster *touchedMonster = get_touched_monster(m, p);
 
-        if(touchedMonster != NULL) touchedMonster->lifepoints -= p->damage;
-        
+        if(touchedMonster != NULL) 
+        {
+            touchedMonster->lifepoints -= p->damage;
+        }
+
                 if(touchedMonster->lifepoints <= 0) 
                 {
                     touchedMonster->isAlive = false;

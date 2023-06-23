@@ -69,7 +69,7 @@ void spawn(Monster *m, Game *g, Map *map, int id_monster) {
     m->rect.x = m->positionX*TILESIZE;
     m->rect.y = m->positionY*TILESIZE;
     m->currentSprite = m->animations[0][0];
-    m->lifepoints = 50;
+    m->lifepoints = 100;
     m->animation_index = 0;
     m->direction = 0;
     m->isAlive = true;
