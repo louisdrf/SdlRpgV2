@@ -22,7 +22,7 @@ void get_position_perso(Perso *p, Globalmap *gmap, Game *g) {
 
 void get_collision(Perso *p, Globalmap *gmap, Game *g) {
 
-  // Y = ABSCISSE / X = ORDONNEE
+  
   Map *m = gmap->gmap[p->ymap][p->xmap]; // on recupere la map actuelle
 
   int caseGauche = m->quadmap[p->positionY + (p->rect.h/TILESIZE)/2][p->positionX - 1];
@@ -66,23 +66,6 @@ void get_collision(Perso *p, Globalmap *gmap, Game *g) {
 }
 
 
-void attack(Game *g, Perso *p, Map *m, int lastmove) {
-
-    p->animation_index = 0;
-
-            for(int i = 0; i<4; i++) {
-
-                    print_map(g, m);
-                    print_monsters(g, m);
-                    SDL_RenderCopy(g->renderer, animation_sword(p, lastmove), NULL, &(p->rectSword)); // animation_sword.c
-                    SDL_RenderPresent(g->renderer);
-                    SDL_Delay(50);
-                    p->animation_index += 1;
-            }
-
-    p->animation_index = 0;
-}
-
 
 void change_map(Game *g, Perso *p, Globalmap *gmap) {
 
@@ -93,41 +76,36 @@ void change_map(Game *g, Perso *p, Globalmap *gmap) {
                         case LEFT:
                         p->xmap -= 1;
                         p->rect.x = (SCREEN_W - (2 * (p->rect.w))); // on recale le perso à droite , vu qu'on va à gauche
-                        m = gmap->gmap[p->ymap][p->xmap];
-                        free_cell(p, m);
                         break;
 
                         case RIGHT:
                         p->xmap += 1;
                         p->rect.x = p->rect.w; // on recale le perso à gauche , vu qu'on va à droite
-                        m = gmap->gmap[p->ymap][p->xmap];
-                        free_cell(p, m);
                         break;
 
                         case UP:
                         p->ymap -= 1;
                         p->rect.y = (SCREEN_H - (2 * (p->rect.h))); // on recale le perso en bas, vu qu'on va en haut
-                        m = gmap->gmap[p->ymap][p->xmap];
-                        free_cell(p, m);
                         break;
 
                         case DOWN:
                         p->ymap += 1;
                         p->rect.y = p->rect.h; // on recale le perso en haut, vu qu'on va en bas
-                        m = gmap->gmap[p->ymap][p->xmap];
-                        free_cell(p, m);
                         break;
 
                 default:
                 break;
         }
 
-    spawn_monsters(g, gmap->gmap[p->ymap][p->xmap]);
-    actualize_perso_movement(g, p, gmap->gmap[p->ymap][p->xmap]);
+    m = gmap->gmap[p->ymap][p->xmap];
+    m->quadmap[p->positionY][p->positionX] = 1;
+
+    spawn_monsters(g, m);
+    actualize_perso_movement(g, p, m);
 }
 
 
-void free_cell(Perso *p, Map *m) {
+void free_last_cell(Perso *p, Map *m) {
 
     switch(p->direction) {
 

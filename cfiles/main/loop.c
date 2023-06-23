@@ -30,9 +30,6 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
         m = gmap->gmap[p->ymap][p->xmap];
 
-        refresh_position_persoXY(p);
-        m->quadmap[p->positionY][p->positionX] = 1;
-
         SDL_Event event; 
 
             if ((SDL_GetTicks() - lastMoveMonsterTime) >= DELAY_MOVE_MONSTER) {  
@@ -57,43 +54,29 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                 switch(event.key.keysym.sym) { 
 
                                             case SDLK_LEFT: 
-
-                                            p->direction = LEFT;
-                                            timed_move(p, g, gmap, LEFT);
-                                            free_cell(p, m);
-
+                                                        p->direction = LEFT;
+                                                        timed_move(p, g, gmap, LEFT);
+                                                        free_last_cell(p, m);
                                             break;
-
-                                            ///////////////////////////////////////////////
 
                                             case SDLK_RIGHT: 
-
-                                            p->direction = RIGHT;
-                                            timed_move(p, g, gmap, RIGHT);
-                                            free_cell(p, m);
-
+                                                        p->direction = RIGHT;
+                                                        timed_move(p, g, gmap, RIGHT);
+                                                        free_last_cell(p, m);
                                             break; 
 
-                                            ///////////////////////////////////////////////
-
                                             case SDLK_UP:
-
-                                            p->direction = UP;
-                                            timed_move(p, g, gmap, UP);
-                                            free_cell(p, m);
-
+                                                        p->direction = UP;
+                                                        timed_move(p, g, gmap, UP);
+                                                        free_last_cell(p, m);
                                             break;
-
-                                            ///////////////////////////////////////////////
 
                                             case SDLK_DOWN:
-
-                                            p->direction = DOWN;
-                                            timed_move(p, g, gmap, DOWN);
-                                            free_cell(p, m);
-
+                                                        p->direction = DOWN;
+                                                        timed_move(p, g, gmap, DOWN);
+                                                        free_last_cell(p, m);
                                             break;
-
+                                            
 
                                             case SDLK_s: 
 
@@ -110,9 +93,11 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
                                             default:
                                             break;
                                 } // fin switch event.key
+
                             default:
                             break;
                         } // fin switch event.type  
+                        
                     } // fin while SDL_PollEvent   
  
     } //fin de program_launched

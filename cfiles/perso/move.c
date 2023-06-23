@@ -52,13 +52,12 @@ void actualize_perso_movement(Game *g, Perso *p, Map *m) {
         SDL_RenderClear(g->renderer);
         print_map(g, m);
         print_monsters(g, m);
-        SDL_RenderCopy(g->renderer, animation_perso(p), NULL, &(p->rect)); /// animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
+        SDL_RenderCopy(g->renderer, animation_perso(p), NULL, &(p->rect)); // animation_perso() retourne la texture correspondante à l'étape de l'animation en cours
         SDL_RenderPresent(g->renderer);
 }
 
 
 void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY) {
-
 
     int currentX = p->rect.x;
     int currentY = p->rect.y;
@@ -72,7 +71,6 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY) {
 
 
     while (currentX != targetPosX || currentY != targetPosY) {
-
 
         if (abs(currentX - targetPosX) < abs(stepX)) {
             currentX = targetPosX;
@@ -89,8 +87,7 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY) {
              p->rect.x = currentX;
              p->rect.y = currentY;
     
-
-        SDL_Delay(7);
+        SDL_Delay(4);
         actualize_perso_movement(g, p, m);
     }
 
@@ -100,7 +97,8 @@ void fluid_move(Perso *p, Map *m, Game *g, Uint16 targetX, Uint16 targetY) {
 void timed_move(Perso *p, Game *g, Globalmap *gmap, int actualMove) {
 
         if(actualMove != p->lastmove) p->delay_between_animations = 0; // si on a changé de direction, le delai passe a 0
-        if (SDL_GetTicks() - p->lastAnimTime >= p->delay_between_animations) {
+        if (SDL_GetTicks() - p->lastAnimTime >= p->delay_between_animations) 
+        {
                 move(g, p, gmap);
                 p->lastAnimTime = SDL_GetTicks();
                 p->lastmove = actualMove;

@@ -73,9 +73,10 @@ void spawn(Monster *m, Game *g, Map *map, int id_monster) {
     m->animation_index = 0;
     m->direction = 0;
 
+    map->quadmap[m->positionY][m->positionX] = 2; // on indique qu'un monstre est présent sur une case en affectant la valeur 2
+
     print_image(g, m->currentSprite, &(m->rect));
     SDL_RenderPresent(g->renderer);
-    //printf("monstre x : %d y : %d\n", m->positionX, m->positionY);
 }
 
 void spawn_monsters(Game *g, Map *map) {

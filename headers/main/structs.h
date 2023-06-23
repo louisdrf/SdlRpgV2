@@ -18,8 +18,8 @@ typedef struct Game {
 
 typedef struct Perso {
 
-    Uint32 lastAnimTime;
-    Uint32 lastAttackTime;
+    long lastAnimTime;
+    long lastAttackTime;
     Uint8 delay_between_animations;
     Uint8 delay_between_attacks;
     Uint8 lastmove;
@@ -37,7 +37,6 @@ typedef struct Perso {
     int positionX;
     int positionY;
     int direction;
-    int next_cells[4];
 
 } Perso;
 
@@ -53,8 +52,7 @@ typedef struct Monster {
     int positionX;
     int positionY;
     int direction;
-    int next_cells[4];
-
+    
 } Monster;
 
 
