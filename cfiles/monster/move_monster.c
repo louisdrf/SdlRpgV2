@@ -56,7 +56,7 @@ void make_move_monster(Monster *m, Map *map, Game *g, Perso *p) {
             case LEFT:
             map->quadmap[m->positionY][m->positionX] = 0;
             m->rect.x -= TILESIZE;
-            refresh_position_monsterXY(m, map);                // on actualise la position X et Y du monstre sur la map de collisions
+            refresh_position_monsterXY(m, map); 
             break;
 
             case RIGHT:
@@ -118,21 +118,26 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int distance, Perso *p
 
         case LEFT:
         if(caseGauche == 0) make_move_monster(m, map, g, p); 
+        else return;
         break;
 
         case RIGHT:
         if(caseDroite == 0) make_move_monster(m, map, g, p);
+        else return;
         break;
 
         case UP:
         if(caseHaut == 0) make_move_monster(m, map, g, p);
+        else return;
         break;
 
         case DOWN:
         if(caseBas == 0) make_move_monster(m, map, g, p);
+        else return;
         break;
 
         default:
+        return;
         break;
     }
 }

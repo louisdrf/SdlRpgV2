@@ -29,6 +29,7 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
     while(program_launched) {
 
         m = gmap->gmap[p->ymap][p->xmap];
+        m->quadmap[p->positionY][p->positionX] = 1;
 
         SDL_Event event; 
 
@@ -55,26 +56,27 @@ void launch_loop(Game *g, Perso *p, Globalmap *gmap) {
 
                                             case SDLK_LEFT: 
                                                         p->direction = LEFT;
+                                                        free_cell(p, m);
                                                         timed_move(p, g, gmap, LEFT);
-                                                        free_last_cell(p, m);
+                                                        
                                             break;
 
                                             case SDLK_RIGHT: 
                                                         p->direction = RIGHT;
+                                                        free_cell(p, m);
                                                         timed_move(p, g, gmap, RIGHT);
-                                                        free_last_cell(p, m);
                                             break; 
 
                                             case SDLK_UP:
                                                         p->direction = UP;
+                                                        free_cell(p, m);
                                                         timed_move(p, g, gmap, UP);
-                                                        free_last_cell(p, m);
                                             break;
 
                                             case SDLK_DOWN:
                                                         p->direction = DOWN;
+                                                        free_cell(p, m);
                                                         timed_move(p, g, gmap, DOWN);
-                                                        free_last_cell(p, m);
                                             break;
                                             
 

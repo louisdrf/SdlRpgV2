@@ -39,10 +39,10 @@ Perso perso = {
     .currentSprite = "img/link/linkRight1.png",
     .animation_index = 0,
     .rectSword = {
-        .x = (NBTILES/4) * TILESIZE,
-        .y = (NBTILES/4) * TILESIZE,
-        .w = 42,
-        .h = 42
+        .x = (NBTILES/2) * TILESIZE,
+        .y = (NBTILES/2) * TILESIZE,
+        .w = 36,
+        .h = 36
     }
 };
 Perso *pperso = &perso;

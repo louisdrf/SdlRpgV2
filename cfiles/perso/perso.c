@@ -34,28 +34,52 @@ void get_collision(Perso *p, Globalmap *gmap, Game *g) {
 
                         case LEFT:
                         if(caseGauche == 0) {
-                                if((p->positionX - NBMAPCUTS) <= 0) change_map(g, p, gmap);
+                                if((p->positionX - NBMAPCUTS) <= 0) 
+                                {
+                                    if((p->xmap - 1) < 0) {
+                                        return;
+                                    }
+                                    change_map(g, p, gmap);
+                                }
                                 else fluid_move(p, m, g, (p->positionX - 1), (p->positionY)); 
                             }
                         break;
 
                         case RIGHT:
                         if(caseDroite == 0) {
-                            if((p->positionX + 1) == (NBTILES-NBMAPCUTS))  change_map(g, p, gmap);
-                            else fluid_move(p, m, g, (p->positionX + 1), (p->positionY));
+                                if((p->positionX + 1) == (NBTILES-NBMAPCUTS))
+                                {
+                                    if((p->xmap + 1) > NBMAPSX) {
+                                        return;
+                                    }
+                                    change_map(g, p, gmap);
+                                }
+                                else fluid_move(p, m, g, (p->positionX + 1), (p->positionY));
                             }
                         break;
 
                         case UP:
                         if(caseHaut == 0) {
-                                if((p->positionY - NBMAPCUTS) <= 0) change_map(g, p, gmap);
+                                if((p->positionY - NBMAPCUTS) <= 0)
+                                {
+                                    if((p->ymap - 1) < 0) {
+                                        return;
+                                    } 
+                                    change_map(g, p, gmap);
+                                }
                                 else fluid_move(p, m, g, p->positionX, (p->positionY - 1));
                             } 
                         break;
 
                         case DOWN:
                         if(caseBas == 0) {
-                                if((p->positionY + NBMAPCUTS) == (NBTILES-1))  change_map(g, p, gmap);
+                                if((p->positionY + NBMAPCUTS) == (NBTILES-1))
+                                 {
+                                    if((p->ymap + 1) > NBMAPSY){
+                                        return;
+                                    } 
+                                    change_map(g, p, gmap);
+                                }
                                 else fluid_move(p, m, g, p->positionX, (p->positionY + 1));
                             }
                         break;
@@ -105,24 +129,24 @@ void change_map(Game *g, Perso *p, Globalmap *gmap) {
 }
 
 
-void free_last_cell(Perso *p, Map *m) {
+void free_cell(Perso *p, Map *m) {
 
     switch(p->direction) {
 
         case LEFT:
-        m->quadmap[p->positionY][p->positionX + 1] = 0;
+        m->quadmap[p->positionY][p->positionX] = 0;
         break;
 
         case RIGHT:
-        m->quadmap[p->positionY][p->positionX - 1] = 0;
+        m->quadmap[p->positionY][p->positionX] = 0;
         break;
 
         case UP:
-        m->quadmap[p->positionY + 1][p->positionX] = 0;
+        m->quadmap[p->positionY][p->positionX] = 0;
         break;
 
         case DOWN:
-        m->quadmap[p->positionY - 1][p->positionX] = 0;
+        m->quadmap[p->positionY][p->positionX] = 0;
         break;
 
         default:
