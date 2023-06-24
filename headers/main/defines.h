@@ -10,7 +10,7 @@
 #define DELAY_BETWEEN_ATTACKS 200
 
 #define NBMAPSX 2
-#define NBMAPSY 2
+#define NBMAPSY 3
 #define NBTILES 20 // nombre de tuiles pour diviser la map
 #define NBMAPCUTS 1 // nombre de découpes de la map (pour les collisions) -> nbtiles  / 20
 #define TILESIZE 36 // taille d'une tuile
@@ -18,6 +18,6 @@
 #define NB_MONSTER_ANIMATIONS 4
 #define MONSTER_SPEED 36
 #define NBMAXMONSTER 20
-#define DELAY_MOVE_MONSTER 1200
+#define DELAY_MOVE_MONSTER 300
 
 #endif

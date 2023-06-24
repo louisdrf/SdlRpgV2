@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -60,7 +61,28 @@ void init_collisions(Map *map) { // initialise le masque de collisions pour la m
 
 
 
-Globalmap *init_global_map() {
+void init_textures(Map *m, Game *g) { // cree la texture pour la map
+
+        if(m->texture == NULL) 
+        {
+                m->surface = IMG_Load(m->currentMapPath);
+                if (m->surface == NULL) {
+                printf("Erreur lors du chargement de l'image de la map : %s\n", IMG_GetError());
+                exit(1);
+                }
+
+                m->texture = SDL_CreateTextureFromSurface(g->renderer, m->surface);
+                SDL_FreeSurface(m->surface); 
+                if (m->surface == NULL) {
+                    printf("Erreur lors de la création de la texture de la map : %s\n", SDL_GetError());
+                    exit(1);
+                }
+        } 
+}
+
+
+
+Globalmap *init_global_map(Game *g) {
 
     srand(time(NULL));
 
@@ -71,7 +93,7 @@ Globalmap *init_global_map() {
         for (int j = 0; j < NBMAPSY; j++) {
 
             int nbmonsters = rand() % NBMAXMONSTER + 1; // nombre de monstres pour la map
-
+        
             maps[i][j].x = 0;
             maps[i][j].y = 0;
             maps[i][j].rect.h = SCREEN_H;
@@ -79,6 +101,8 @@ Globalmap *init_global_map() {
             maps[i][j].rect.x = 0;
             maps[i][j].rect.y = 0;
             maps[i][j].nbmonsters = nbmonsters;
+            maps[i][j].surface = NULL;
+            maps[i][j].texture = NULL;
 
             maps[i][j].currentMapPath = malloc(50); // 29 caracteres pour un chemin complet de map
             maps[i][j].collisionMapPath = malloc(50); 
@@ -92,12 +116,12 @@ Globalmap *init_global_map() {
             strcat(maps[i][j].currentMapPath, ".png");
             strcat(maps[i][j].collisionMapPath, ".txt");
 
+            init_textures(&(maps[i][j]), g);
             init_collisions(&(maps[i][j]));
 
             pgmap->gmap[j][i] = malloc(sizeof(Map));
             memcpy(pgmap->gmap[j][i], &(maps[i][j]), sizeof(Map)); // on copie les maps créées dans notre map globale
         }
     }
-    
     return pgmap;
 }

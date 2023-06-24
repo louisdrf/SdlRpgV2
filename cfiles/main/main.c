@@ -36,7 +36,7 @@ Perso perso = {
     .speed = PERSO_SPEED,
     .damage = PERSO_DAMAGE,
     .lifepoints = 100,
-    .currentSprite = "img/link/linkRight1.png",
+    .currentSprite = "img/link/linkForward1.png",
     .animation_index = 0,
     .rectSword = {
         .x = (NBTILES/2) * TILESIZE,
@@ -49,7 +49,7 @@ Perso *pperso = &perso;
 
 
 
-Globalmap *pgmap = init_global_map(); // on recupere la map complete
+Globalmap *pgmap = init_global_map(pgame); // on recupere la map complete
 
 
 init_perso_animations(pperso); 

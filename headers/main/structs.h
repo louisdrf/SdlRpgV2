@@ -62,6 +62,8 @@ typedef struct Monster {
 typedef struct Map {
 
     SDL_Rect rect; 
+    SDL_Texture *texture;
+    SDL_Surface *surface;
     char *currentMapPath; 
     char *collisionMapPath;
     int x;

@@ -51,34 +51,33 @@ void move_monster(Game *g, Map *map, Perso *p) {
 
 void make_move_monster(Monster *m, Map *map, Game *g, Perso *p) {
 
+    int x = m->positionX;
+    int y = m->positionY;
+
         switch(m->direction) {
 
             case LEFT:
-            map->quadmap[m->positionY][m->positionX] = 0;
+            map->quadmap[y][x] = 0;
             m->rect.x -= TILESIZE;
             refresh_position_monsterXY(m, map); 
             break;
 
             case RIGHT:
-            map->quadmap[m->positionY][m->positionX] = 0;
+            map->quadmap[y][x] = 0;
             m->rect.x += TILESIZE;
             refresh_position_monsterXY(m, map);
-            
             break;
 
             case UP:
-            map->quadmap[m->positionY][m->positionX] = 0; 
+            map->quadmap[y][x] = 0; 
             m->rect.y -= TILESIZE;
             refresh_position_monsterXY(m, map);
             break;
 
             case DOWN:
-            map->quadmap[m->positionY][m->positionX] = 0; 
+            map->quadmap[y][x] = 0; 
             m->rect.y += TILESIZE;
             refresh_position_monsterXY(m, map);
-            break;
-
-            default:
             break;
         }
         
@@ -134,10 +133,6 @@ void get_collision_monster(Game *g, Monster *m, Map *map, int distance, Perso *p
         case DOWN:
         if(caseBas == 0) make_move_monster(m, map, g, p);
         else return;
-        break;
-
-        default:
-        return;
         break;
     }
 }
