@@ -49,17 +49,16 @@ Perso *pperso = &perso;
 
 
 
-Globalmap *pgmap = init_global_map(pgame); // on recupere la map complete
-
-
-init_perso_animations(pperso); 
-init_perso_animations_attack(pperso);
-
 // init sdl
 sdl_init(pgame);
 
+Globalmap *pgmap = init_global_map(pgame); // on recupere la map complete
 
+init_perso_animations(pperso); 
+init_perso_animations_attack(pperso);
 load_perso_animations(pperso, pgame); // load textures for character
+
+
 // init the main loop of the game
 launch_loop(pgame, pperso, pgmap);
 // close the game

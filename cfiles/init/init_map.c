@@ -55,29 +55,30 @@ void init_collisions(Map *map) { // initialise le masque de collisions pour la m
                     }
                 }
             }
-
         memcpy(map->quadmap, quadmapDivided, sizeof(quadmapDivided));
 }
 
 
 
-void init_textures(Map *m, Game *g) { // cree la texture pour la map
+void init_textures(Map *m, Game *g) { // initialise la texture de la map
 
-        if(m->texture == NULL) 
-        {
-                m->surface = IMG_Load(m->currentMapPath);
-                if (m->surface == NULL) {
-                printf("Erreur lors du chargement de l'image de la map : %s\n", IMG_GetError());
-                exit(1);
+    if ((m->texture) == NULL) 
+    {
+                printf("map : %s\n", m->currentMapPath);
+                SDL_Surface *s = IMG_Load(m->currentMapPath);
+                if (s == NULL) {
+                    printf("Erreur lors du chargement de l'image de la map : %s\n", IMG_GetError());
+                    exit(1);
                 }
 
-                m->texture = SDL_CreateTextureFromSurface(g->renderer, m->surface);
-                SDL_FreeSurface(m->surface); 
-                if (m->surface == NULL) {
+                (m->texture) = SDL_CreateTextureFromSurface(g->renderer, s);
+                SDL_FreeSurface(s);
+                if ((m->texture) == NULL) {
                     printf("Erreur lors de la création de la texture de la map : %s\n", SDL_GetError());
                     exit(1);
                 }
-        } 
+        printf("texture de %s chargée\n", m->currentMapPath);
+    }
 }
 
 
@@ -101,8 +102,6 @@ Globalmap *init_global_map(Game *g) {
             maps[i][j].rect.x = 0;
             maps[i][j].rect.y = 0;
             maps[i][j].nbmonsters = nbmonsters;
-            maps[i][j].surface = NULL;
-            maps[i][j].texture = NULL;
 
             maps[i][j].currentMapPath = malloc(50); // 29 caracteres pour un chemin complet de map
             maps[i][j].collisionMapPath = malloc(50); 
@@ -115,6 +114,8 @@ Globalmap *init_global_map(Game *g) {
             strcat(maps[i][j].collisionMapPath, mapIndex);
             strcat(maps[i][j].currentMapPath, ".png");
             strcat(maps[i][j].collisionMapPath, ".txt");
+
+            maps[i][j].texture = NULL;
 
             init_textures(&(maps[i][j]), g);
             init_collisions(&(maps[i][j]));

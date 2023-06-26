@@ -28,11 +28,12 @@ void print_image(Game *g, char *imgpath, SDL_Rect *r) {
 
 void print_map(Game *g, Map *m) {
 
-   if(m->texture != NULL) {
-    
-        SDL_RenderCopy(g->renderer, m->texture, NULL, &(m->rect));
-        SDL_DestroyTexture(m->texture);           
+   if((m->texture) != NULL) {
+        SDL_RenderCopy(g->renderer, (m->texture), NULL, &(m->rect));
    } 
-   
-   
+   else
+   {
+    printf("impossible d'utiliser la map texture = %p\n", (m->texture));
+    exit(1);
+   }
 }
