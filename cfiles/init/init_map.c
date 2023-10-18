@@ -15,6 +15,7 @@ void read_collisions(Map *m) { // cree le tableau de collisions de la map a part
         exit(1);
     }
 
+
     int collisions[NBTILES][NBTILES];
     int row = 0, col = 0;
     char line[500];
