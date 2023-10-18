@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -55,13 +56,35 @@ void init_collisions(Map *map) { // initialise le masque de collisions pour la m
                     }
                 }
             }
-
         memcpy(map->quadmap, quadmapDivided, sizeof(quadmapDivided));
 }
 
 
 
-Globalmap *init_global_map() {
+void init_textures(Map *m, Game *g) { // initialise la texture de la map
+
+    if ((m->texture) == NULL) 
+    {
+                printf("map : %s\n", m->currentMapPath);
+                SDL_Surface *s = IMG_Load(m->currentMapPath);
+                if (s == NULL) {
+                    printf("Erreur lors du chargement de l'image de la map : %s\n", IMG_GetError());
+                    exit(1);
+                }
+
+                (m->texture) = SDL_CreateTextureFromSurface(g->renderer, s);
+                SDL_FreeSurface(s);
+                if ((m->texture) == NULL) {
+                    printf("Erreur lors de la création de la texture de la map : %s\n", SDL_GetError());
+                    exit(1);
+                }
+        printf("texture de %s chargée\n", m->currentMapPath);
+    }
+}
+
+
+
+Globalmap *init_global_map(Game *g) {
 
     srand(time(NULL));
 
@@ -72,7 +95,7 @@ Globalmap *init_global_map() {
         for (int j = 0; j < NBMAPSY; j++) {
 
             int nbmonsters = rand() % NBMAXMONSTER + 1; // nombre de monstres pour la map
-
+        
             maps[i][j].x = 0;
             maps[i][j].y = 0;
             maps[i][j].rect.h = SCREEN_H;
@@ -93,12 +116,14 @@ Globalmap *init_global_map() {
             strcat(maps[i][j].currentMapPath, ".png");
             strcat(maps[i][j].collisionMapPath, ".txt");
 
+            maps[i][j].texture = NULL;
+
+            init_textures(&(maps[i][j]), g);
             init_collisions(&(maps[i][j]));
 
             pgmap->gmap[j][i] = malloc(sizeof(Map));
             memcpy(pgmap->gmap[j][i], &(maps[i][j]), sizeof(Map)); // on copie les maps créées dans notre map globale
         }
     }
-    
     return pgmap;
 }

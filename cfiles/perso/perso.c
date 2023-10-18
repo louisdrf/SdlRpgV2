@@ -13,16 +13,16 @@ void refresh_position_persoXY(Perso *p) {
     p->positionY = (p->rect.y)/TILESIZE;
 }
 
-void get_position_perso(Perso *p, Globalmap *gmap, Game *g, int direction) {
+void get_position_perso(Perso *p, Globalmap *gmap, Game *g) {
 
-     get_collision(p, gmap, g, direction);
+     get_collision(p, gmap, g);
      refresh_position_persoXY(p);
 }
 
 
-void get_collision(Perso *p, Globalmap *gmap, Game *g, int direction) {
+void get_collision(Perso *p, Globalmap *gmap, Game *g) {
 
-  // Y = ABSCISSE / X = ORDONNEE
+  
   Map *m = gmap->gmap[p->ymap][p->xmap]; // on recupere la map actuelle
 
   int caseGauche = m->quadmap[p->positionY + (p->rect.h/TILESIZE)/2][p->positionX - 1];
@@ -30,49 +30,57 @@ void get_collision(Perso *p, Globalmap *gmap, Game *g, int direction) {
   int caseHaut = m->quadmap[p->positionY - 1][p->positionX + (p->rect.w/TILESIZE)/2];
   int caseBas = m->quadmap[(p->positionY + (p->rect.h/TILESIZE))][p->positionX + (p->rect.w/TILESIZE)/2];
 
-        switch(direction) {
+        switch(p->direction) {
 
                         case LEFT:
                         if(caseGauche == 0) {
-                                if((p->positionX - NBMAPCUTS) <= 0) change_map(g, p, direction, gmap);
-                                else {
-                                    m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
-                                    fluid_move(p, m, g, (p->positionX - 1), (p->positionY), direction); 
-                                    m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
+                                if((p->positionX - NBMAPCUTS) <= 0) 
+                                {
+                                    if((p->xmap - 1) < 0) {
+                                        return;
+                                    }
+                                    change_map(g, p, gmap);
                                 }
+                                else fluid_move(p, m, g, (p->positionX - 1), (p->positionY)); 
                             }
                         break;
 
                         case RIGHT:
                         if(caseDroite == 0) {
-                            if((p->positionX + 1) == (NBTILES-NBMAPCUTS))  change_map(g, p, direction, gmap);
-                            else {
-                                m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
-                                fluid_move(p, m, g, (p->positionX + 1), (p->positionY), direction);
-                                m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
-                            }
+                                if((p->positionX + 1) == (NBTILES-NBMAPCUTS))
+                                {
+                                    if((p->xmap + 1) > NBMAPSX) {
+                                        return;
+                                    }
+                                    change_map(g, p, gmap);
+                                }
+                                else fluid_move(p, m, g, (p->positionX + 1), (p->positionY));
                             }
                         break;
 
                         case UP:
                         if(caseHaut == 0) {
-                                if((p->positionY - NBMAPCUTS) <= 0) change_map(g, p, direction, gmap);
-                                else {
-                                    m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
-                                    fluid_move(p, m, g, p->positionX, (p->positionY - 1), direction);
-                                    m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
+                                if((p->positionY - NBMAPCUTS) <= 0)
+                                {
+                                    if((p->ymap - 1) < 0) {
+                                        return;
+                                    } 
+                                    change_map(g, p, gmap);
                                 }
+                                else fluid_move(p, m, g, p->positionX, (p->positionY - 1));
                             } 
                         break;
 
                         case DOWN:
                         if(caseBas == 0) {
-                                if((p->positionY + NBMAPCUTS) == (NBTILES-1))  change_map(g, p, direction, gmap);
-                                else {
-                                    m->quadmap[p->positionY][p->positionX] = 0; // on libère la position actuelle du perso
-                                    fluid_move(p, m, g, p->positionX, (p->positionY + 1), direction); 
-                                    m->quadmap[p->positionY][p->positionX] = 1; // la nouvelle position devient une case utilisée
+                                if((p->positionY + NBMAPCUTS) == (NBTILES-1))
+                                 {
+                                    if((p->ymap + 1) > NBMAPSY){
+                                        return;
+                                    } 
+                                    change_map(g, p, gmap);
                                 }
+                                else fluid_move(p, m, g, p->positionX, (p->positionY + 1));
                             }
                         break;
 
@@ -82,27 +90,12 @@ void get_collision(Perso *p, Globalmap *gmap, Game *g, int direction) {
 }
 
 
-void attack(Game *g, Perso *p, Map *m, int lastmove) {
 
-  p->animation_index = 0;
+void change_map(Game *g, Perso *p, Globalmap *gmap) {
 
-    for(int i = 0; i<4; i++) {
+    Map *m = gmap->gmap[p->ymap][p->xmap];
 
-              print_map(g, m);
-              print_monsters(g, m);
-              SDL_RenderCopy(g->renderer, animation_sword(p, lastmove), NULL, &(p->rectSword)); // animation_sword.c
-              SDL_RenderPresent(g->renderer);
-              SDL_Delay(50);
-              p->animation_index += 1;
-    }
-
-    p->animation_index = 0;
-}
-
-
-void change_map(Game *g, Perso *p, int direction, Globalmap *gmap) {
-
-     switch(direction) {
+     switch(p->direction) {
 
                         case LEFT:
                         p->xmap -= 1;
@@ -127,6 +120,36 @@ void change_map(Game *g, Perso *p, int direction, Globalmap *gmap) {
                 default:
                 break;
         }
-    spawn_monsters(g, gmap->gmap[p->ymap][p->xmap]);
-    actualize_perso_movement(direction, g, p, gmap->gmap[p->ymap][p->xmap]);
+
+    m = gmap->gmap[p->ymap][p->xmap];
+    m->quadmap[p->positionY][p->positionX] = 1;
+
+    spawn_monsters(g, m);
+    actualize_perso_movement(g, p, m);
+}
+
+
+void free_cell(Perso *p, Map *m) {
+
+    switch(p->direction) {
+
+        case LEFT:
+        m->quadmap[p->positionY][p->positionX] = 0;
+        break;
+
+        case RIGHT:
+        m->quadmap[p->positionY][p->positionX] = 0;
+        break;
+
+        case UP:
+        m->quadmap[p->positionY][p->positionX] = 0;
+        break;
+
+        case DOWN:
+        m->quadmap[p->positionY][p->positionX] = 0;
+        break;
+
+        default:
+        break;
+    }
 }

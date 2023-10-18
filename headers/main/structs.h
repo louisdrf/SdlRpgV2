@@ -1,6 +1,7 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 #include <SDL.h>
+#include <stdbool.h>
 #include "defines.h"
 
 typedef enum {
@@ -18,6 +19,11 @@ typedef struct Game {
 
 typedef struct Perso {
 
+    long lastAnimTime;
+    long lastAttackTime;
+    Uint8 delay_between_animations;
+    Uint8 delay_between_attacks;
+    Uint8 lastmove;
     SDL_Rect rect; 
     SDL_Rect rectSword; 
     char *name; 
@@ -29,10 +35,10 @@ typedef struct Perso {
     char *currentSprite; 
     int xmap;
     int ymap;
-    int positionX;
-    int positionY;
-    int direction;
-    int next_cells[4];
+    Uint8 positionX;
+    Uint8 positionY;
+    Uint8 direction;
+    int damage;
 
 } Perso;
 
@@ -48,14 +54,15 @@ typedef struct Monster {
     int positionX;
     int positionY;
     int direction;
-    int next_cells[4];
-
+    bool isAlive;
+    
 } Monster;
 
 
 typedef struct Map {
 
     SDL_Rect rect; 
+    SDL_Texture *texture;
     char *currentMapPath; 
     char *collisionMapPath;
     int x;

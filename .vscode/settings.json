@@ -5,6 +5,9 @@
         "create_texture.h": "c",
         "type_traits": "c",
         "init_sprites_monster.h": "c",
-        "structs.h": "c"
-    }
+        "structs.h": "c",
+        "loop.h": "c",
+        "animation_sword.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
